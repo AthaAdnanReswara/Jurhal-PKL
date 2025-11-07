@@ -3,28 +3,25 @@
 namespace App\Http\Controllers\Siswa;
 
 use App\Http\Controllers\Controller;
-use App\Models\Jurusan;
-use App\Models\Kelas;
+use App\Models\Kegiatan;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
-class ProfilSiswaController extends Controller
+class KegiatanController extends Controller
 {
+    // untuk menampilkan di admin
+    public function kegiatan(){
+        $kegiatans = Kegiatan::with(['siswa'])->get();
+        return view('admin.kegiatan.kegiatan',compact('kegiatans'));
+    }
+
     /**
-     * Display a listing of the resource.
+     * Display a listing of the resourc e.
      */
     public function index()
     {
         //
-        $user = Auth::user();
-
-        $siswa = $user->siswa;
-        $pembimbing = $siswa ? $siswa->pembimbing : null;
-        $kelas = Kelas::all();
-        $jurusan = Jurusan::all();
-        $dudi = $siswa ? $siswa->dudi : null;
-
-        return view("siswa.profile.index", compact('siswa', 'user', 'pembimbing', 'kelas', 'jurusan', 'dudi'));
+        $kegiatan = Kegiatan::all();
+        return view('siswa.kegiatan.index', compact('kegiatan'));
     }
 
     /**

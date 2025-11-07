@@ -20,7 +20,7 @@ class SiswaController extends Controller
     public function index()
     {
         //
-        $siswa = Siswa::all();
+        $siswa = Siswa::with(['user', 'pembimbing', 'dudi', 'kelas', 'jurusan', 'kegiatan', 'absensi'])->get();
         return view('admin.siswa.index', compact('siswa'));
     }
 
@@ -34,9 +34,8 @@ class SiswaController extends Controller
         $jurusan = Jurusan::all();
         $dudi = Dudi::all();
         $pembimbing = User::where('role', 'pembimbing')->get();
-        
-         return view('admin.siswa.create', compact('kelas','jurusan','dudi','pembimbing'));
 
+        return view('admin.siswa.createSiswa', compact('kelas', 'jurusan', 'dudi', 'pembimbing'));
     }
 
     /**
@@ -46,14 +45,18 @@ class SiswaController extends Controller
     {
         //
         $request->validate([
-            'id_kelas' => 'required',
-            'id_jurusan' => 'required',
-            'nis' => 'required',
-            'id_dudi' => 'required',
-            'id_pembimbing' => 'required',
             'name' => 'required',
-            'email' => 'required',
-            'password' => 'required',
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|min:3',
+
+            'NIS' => 'required|unique:siswas,nis',
+            'jenis_kelamin' => 'required|in:laki-laki,perempuan,tidak diketahui',
+            'tempat_lahir' => 'required',
+            'tanggal_lahir' => 'required',
+            'kelas' => 'required',
+            'jurusan' => 'required',
+            'nama_dudi' => 'required',
+            'pembimbing_id' => 'required',
         ]);
 
         $user = User::create([
@@ -61,21 +64,21 @@ class SiswaController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'role' => 'siswa',
-        ]); 
+        ]);
 
         Siswa::create([
-            'id_users' => $user->id,
-            'id_kelas' => $request->id_kelas,
-            'id_jurusan' => $request->id_jurusan,
-            'nis' => $request->nis,
-            'id_dudi' => $request->id_dudi,
-            'id_pembimbing' => $request->id_pembimbing,
-            'name' => $request->name,
+            'id_siswa' => $user->id,
+            'NIS' => $request->NIS,
+            'jurusan_id' => $request->jurusan,
+            'tempat_lahir' => $request->tempat_lahir,
+            'tanggal_lahir' => $request->tanggal_lahir,
+            'kelas_id' => $request->kelas,
+            'jenis_kelamin' => $request->jenis_kelamin,
+            'nama_dudi' => $request->nama_dudi,
+            'pembimbing_id' => $request->pembimbing_id,
         ]);
 
         return redirect()->route('admin.siswa.index')->with('success', 'berhasil menambahkan data siswa');
-    
-
     }
 
     /**
@@ -89,24 +92,73 @@ class SiswaController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Siswa $siswa)
     {
         //
+        $kelas = Kelas::all();
+        $jurusan = Jurusan::all();
+        $dudi = Dudi::all();
+        $pembimbing = User::where('role','pembimbing')->get();
+        return view('admin.siswa.edit', compact('siswa','kelas','jurusan','dudi','pembimbing'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Siswa $siswa)
     {
         //
+        $user = User::findOrFail($siswa->id_siswa);
+
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required|email|unique:users,email,'. $user->id,
+            'password' => 'nullable|min:3',
+
+            'NIS' => 'required|unique:siswas,nis,' . $siswa->id,
+            'jenis_kelamin' => 'required|in:laki-laki,perempuan,tidak diketahui',
+            'tempat_lahir' => 'required',
+            'tanggal_lahir' => 'required',
+            'kelas' => 'required',
+            'jrusan' => 'required',
+            'nama_dudi' => 'required',
+            'pembimbing_id' => 'required',
+        ]);
+
+        if ($request->filled('password')) {
+            $user->password = Hash::make($request->password);
+        }
+
+        $user->update([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => $user->password,
+        ]);
+
+        $siswa->update([
+            'id_siswa' => $user->id,
+            'NIS' => $request->NIS,
+            'jurusan_id' => $request->jurusan,
+            'tempat_lahir' => $request->tempat_lahir,
+            'tanggal_lahir' => $request->tanggal_lahir,
+            'kelas_id' => $request->kelas,
+            'jenis_kelamin' => $request->jenis_kelamin,
+            'nama_dudi' => $request->nama_dudi,
+            'pembimbing_id' => $request->pembimbing_id,
+        ]);
+        return redirect()->route('admin.siswa.index')->with('success', 'berhasil mengupdate data siswa');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Siswa $siswa)
     {
         //
+        $user = User::find($siswa->id_siswa);
+        $user->delete();
+        $siswa->delete();
+
+        return redirect()->route('admin.siswa.index')->with('success','Siswa berhsasil di hapus');
     }
 }

@@ -14,11 +14,19 @@ class RoleMiddleware
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
-    public function handle(Request $request, Closure $next, string $role)
-    {   
-        if (Auth::check() && Auth::user()->role === $role) {
+    public function handle(Request $request, Closure $next, ...$roles): Response
+    {
+        $user = Auth::user();
+
+        if(!$user) {
+            return redirect()->route('login');
+        }
+        if($user->role === 'admin') {
             return $next($request);
         }
-        abort(403, 'Unauthorized');
+        if(!in_array($user->role, $roles)) {
+            abort(403, 'Akses Ditolak. Anda tidak memiliki izin untuk membuka halaman ini .');
+        }
+        return $next($request); 
     }
 }

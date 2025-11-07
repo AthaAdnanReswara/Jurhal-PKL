@@ -38,30 +38,31 @@
     <hr class="horizontal dark mt-0 mb-2">
     <div class="collapse navbar-collapse w-auto" id="sidenav-collapse-main">
       <ul class="navbar-nav">
-        @if (Auth::user() && Auth::user()->role === 'admin')
+        @if(auth()->user()->role == 'admin')
         <li class="nav-item">
-          <a class="nav-link active bg-gradient-dark text-white" href="{{ route('admin.dashboard')}}">
+          <a class="nav-link text-dark {{ request()->routeIs('admin.dashboard') ? 'active bg-gradient-dark text-white' : 'text-dark' }}  "
+            href="{{ route('admin.dashboard')}}">
             <i class="material-symbols-rounded opacity-5">dashboard</i>
             <span class="nav-link-text ms-1">Dashboard</span>
           </a>
         </li>
 
         <li class="nav-item">
-          <a class="nav-link text-dark {{ request()->routeIs('admin.kelas.index') ? 'active bg-gradient-dark text-white' : '' }}  "
+          <a class="nav-link text-dark {{ request()->routeIs('admin.kelas.*') ? 'active bg-gradient-dark text-white' : 'text-dark' }}  "
             href="{{ route('admin.kelas.index') }}">
             <i class="material-symbols-rounded opacity-5">co_present</i>
             <span class="nav-link-text ms-1">Kelas</span>
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-dark {{ request()->routeIs('admin.jurusan.index') ? 'active bg-gradient-dark text-white' : '' }}"
+          <a class="nav-link text-dark {{ request()->routeIs('admin.jurusan.*') ? 'active bg-gradient-dark text-white' : 'text-dark' }}"
             href="{{ route('admin.jurusan.index') }}">
             <i class="material-symbols-rounded opacity-5">receipt_long</i>
             <span class="nav-link-text ms-1">Jurusan</span>
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-dark {{ request()->routeIs('admin.dudi.index') ? 'active bg-gradient-dark text-white' : '' }}"
+          <a class="nav-link text-dark {{ request()->routeIs('admin.dudi.*') ? 'active bg-gradient-dark text-white' : 'text-dark' }}"
             href="{{ route('admin.dudi.index') }}">
             <i class="material-symbols-rounded opacity-5">view_in_ar</i>
             <span class="nav-link-text ms-1">Dudi</span>
@@ -69,7 +70,7 @@
         </li>
         <li class="nav-item mt-1">
           <!-- Accordion Header -->
-          <a class="nav-link text-dark d-flex justify-content-between align-items-center"
+          <a class="nav-link text-dark d-flex justify-content-between align-items-center {{ request()->routeIs('admin.siswa.*') ? 'active bg-gradient-dark text-white' : '' }}"
             href="javascript:;" onclick="document.getElementById('kelolaUserMenu').classList.toggle('d-none')">
             <div class="d-flex align-items-center">
               <i class="material-symbols-rounded opacity-5">group</i>
@@ -89,32 +90,61 @@
             </li>
             <li class="nav-item">
               <a href="{{ route('admin.siswa.index') }}"
-                class="nav-link text-dark {{ request()->routeIs('admin.siswa.indexSiswa.*') ? 'active bg-gradient-dark text-white' : '' }}">
+                class="nav-link text-dark {{ request()->routeIs('admin.siswa.index*') ? 'active bg-gradient-dark text-white' : '' }}">
                 <i class="material-symbols-rounded opacity-5">person</i>
                 <span class="nav-link-text ms-1">Kelola Siswa</span>
               </a>
             </li>
-
           </ul>
         </li>
+
+        <li class="nav-item">
+          <a class="nav-link text-dark {{ request()->routeIs('admin.kegiatan') ? 'active bg-gradient-dark text-white' : 'text-dark' }}  "
+            href="{{ route('admin.kegiatan') }}">
+            <i class="material-symbols-rounded opacity-5">assignment</i>
+            <span class="nav-link-text ms-1">Kegiatan</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-dark {{ request()->routeIs('admin.absensi') ? 'active bg-gradient-dark text-white' : 'text-dark' }}  "
+            href="{{ route('admin.absensi') }}">
+            <i class="material-symbols-rounded opacity-5">login</i>
+            <span class="nav-link-text ms-1">Absensi</span>
+          </a>
+        </li>
         @endif
-        <ul class="navbar-nav">
-          @if (Auth::user() && Auth::user()->role === 'siswa')
+          @if(auth()->user()->role == 'siswa')
           <li class="nav-item">
-            <a class="nav-link active bg-gradient-dark text-white" href="{{ route('siswa.dashboard')}}">
+            <a class="nav-link text-dark {{ request()->routeIs('siswa.dashboard') ? 'active bg-gradient-dark text-white' : 'text-dark' }}"
+              href="{{ route('siswa.dashboard')}}">
               <i class="material-symbols-rounded opacity-5">dashboard</i>
               <span class="nav-link-text ms-1">Dashboard</span>
             </a>
           </li>
 
           <li class="nav-item">
-            <a class="nav-link text-dark {{ request()->routeIs('siswa.dudi.index') ? 'active bg-gradient-dark text-white' : '' }}"
-              href="{{ route('admin.dudi.index') }}">
-              <i class="material-symbols-rounded opacity-5">view_in_ar</i>
-              <span class="nav-link-text ms-1">Dudi</span>
+            <a class="nav-link text-dark {{ request()->routeIs('siswa.kegiatan.*') ? 'active bg-gradient-dark text-white' : 'text-dark' }}"
+              href="{{ route('siswa.kegiatan.index') }}">
+              <i class="material-symbols-rounded opacity-5">assignment</i>
+              <span class="nav-link-text ms-1">Kegiatan</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-dark {{ request()->routeIs('siswa.absensi.*') ? 'active bg-gradient-dark text-white' : 'text-dark' }}"
+              href="{{ route('siswa.absensi.index') }}">
+              <i class="material-symbols-rounded opacity-5">login</i>
+              <span class="nav-link-text ms-1">Absensi</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-dark {{ request()->routeIs('siswa.profile.*') ? 'active bg-gradient-dark text-white' : 'text-dark' }}"
+              href="{{ route('siswa.profile.index') }}">
+              <i class="material-symbols-rounded opacity-5">account_box</i>
+              <span class="nav-link-text ms-1">Profile</span>
             </a>
           </li>
           @endif
+          
 
           <!-- ... menu lainnya ... -->
         </ul>

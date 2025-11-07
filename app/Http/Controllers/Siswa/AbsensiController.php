@@ -3,28 +3,28 @@
 namespace App\Http\Controllers\Siswa;
 
 use App\Http\Controllers\Controller;
-use App\Models\Jurusan;
-use App\Models\Kelas;
+use App\Models\Absensi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class ProfilSiswaController extends Controller
+class AbsensiController extends Controller
 {
+    //menapilan di admin
+    public function absensi()
+    {
+        $absensi = Absensi::with(['siswa'])->get();
+
+        return view('admin.absensi.absensi', compact('absensi'));
+    }
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
         //
-        $user = Auth::user();
-
-        $siswa = $user->siswa;
-        $pembimbing = $siswa ? $siswa->pembimbing : null;
-        $kelas = Kelas::all();
-        $jurusan = Jurusan::all();
-        $dudi = $siswa ? $siswa->dudi : null;
-
-        return view("siswa.profile.index", compact('siswa', 'user', 'pembimbing', 'kelas', 'jurusan', 'dudi'));
+        $absensis = Absensi::where('id_siswa', Auth::user()->siswa->id)->get();
+        return view('siswa.absensi.index', compact('absensis'));
     }
 
     /**

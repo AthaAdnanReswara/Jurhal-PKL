@@ -27,7 +27,7 @@
       </div>
       <hr class="dark horizontal my-0">
       <div class="card-footer p-2 ps-3">
-        <p class="mb-0 text-sm"><span class="text-success font-weight-bolder">-2% </span>Jumlah kegiatan</p>
+        <p class="mb-0 text-sm" ><span class="text-success font-weight-bolder"></span><a href="{{ route('admin.kelas.index') }}">Lihat Kelas</a></p>
       </div>
     </div>
   </div>
@@ -47,7 +47,7 @@
       </div>
       <hr class="dark horizontal my-0">
       <div class="card-footer p-2 ps-3">
-        <p class="mb-0 text-sm"><span class="text-success font-weight-bolder">+5% </span>Jumlah Pembimbing</p>
+                <p class="mb-0 text-sm" ><span class="text-success font-weight-bolder"></span><a href="{{ route('admin.dudi.index') }}">Lihat Dudi</a></p>
       </div>
     </div>
   </div>
@@ -67,7 +67,7 @@
       </div>
       <hr class="dark horizontal my-0">
       <div class="card-footer p-2 ps-3">
-        <p class="mb-0 text-sm"><span class="text-success font-weight-bolder">+5% </span>Jumlah Users</p>
+                <p class="mb-0 text-sm" ><span class="text-success font-weight-bolder"></span><a href="{{ route('admin.pembimbing.index') }}">Lihat Pembimbing</a></p>
       </div>
     </div>
   </div>
@@ -86,7 +86,7 @@
       </div>
       <hr class="dark horizontal my-0">
       <div class="card-footer p-2 ps-3">
-        <p class="mb-0 text-sm"><span class="text-success font-weight-bolder">+10% </span>Jumlah siswa</p>
+                <p class="mb-0 text-sm" ><span class="text-success font-weight-bolder"></span><a href="{{ route('admin.siswa.index') }}">Lihat Siswa</a></p>
       </div>
     </div>
   </div>

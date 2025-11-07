@@ -8,12 +8,12 @@ class Siswa extends Model
 {
     //
     protected $fillable = ([
-        'nama',
+        'id_siswa',
         'NIS',
-        'jurusan',
+        'jurusan_id',
         'tempat_lahir',
         'tanggal_lahir',
-        'kelas',
+        'kelas_id',
         'jenis_kelamin',
         'nama_dudi',
         'pembimbing_id',
@@ -28,11 +28,11 @@ class Siswa extends Model
     }
 
     public function kelas() {
-        return $this->belongsTo(Kelas::class, 'kelas');
+        return $this->belongsTo(Kelas::class, 'kelas_id');
     }
 
     public function jurusan() {
-        return $this->belongsTo(Jurusan::class, 'jurusan');
+        return $this->belongsTo(Jurusan::class, 'jurusan_id');
     }
 
     public function dudi() {
