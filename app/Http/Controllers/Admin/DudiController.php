@@ -85,7 +85,7 @@ class DudiController extends Controller
             'direktur' => 'required|string|max:255',
             'pembimbing' => 'required|string|max:255',
         ]);
-        $dudi->update([
+        $dudi->update([ 
             'nama_dudi' => $request->nama_dudi,
             'jenis_usaha' => $request->jenis_usaha,
             'alamat' => $request->alamat,

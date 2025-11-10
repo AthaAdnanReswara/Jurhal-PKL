@@ -57,7 +57,7 @@ Route::prefix('siswa')->name('siswa.')->middleware(['auth','role:siswa'])->group
     Route::resource('absensi', AbsensiController::class);
 });
 
-Route::prefix('siswa')->name('siswa.')->middleware(['auth','role:siswa'])->group(function (){
+Route::prefix('pembimbing')->name('pembimbing.')->middleware(['auth','role:pembimbing'])->group(function (){
     //Dashboard
-        
+    Route::get('dashboard',[DashboardController::class, 'login'])->name('dashboard');
 });

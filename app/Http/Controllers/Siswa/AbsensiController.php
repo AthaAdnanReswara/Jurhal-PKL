@@ -33,15 +33,41 @@ class AbsensiController extends Controller
     public function create()
     {
         //
+        return view('siswa.absensi.tambah');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
-    {
-        //
-    }
+public function store(Request $request)
+{
+    // Ambil user yang sedang login
+    $user = Auth::user();
+    $siswa = $user->siswa; // relasi antara user dan siswa
+
+    // Validasi input
+    $request->validate([
+        'tanggal' => 'required|date',
+        'jam_masuk' => 'required',
+        'jam_pulang' => 'required',
+        'status' => 'required|in:hadir,izin,sakit', // disesuaikan dengan enum di tabel
+        'keterangan' => 'nullable|string',
+    ]);
+
+    // Simpan data ke tabel absensis
+    Absensi::create([
+        'id_siswa' => $siswa->id, // siswa login (misal Fogenky)
+        'tanggal' => $request->tanggal,
+        'jam_masuk' => $request->jam_masuk,
+        'jam_pulang' => $request->jam_pulang,
+        'status' => $request->status,
+        'keterangan' => $request->keterangan ?? null,
+    ]);
+
+    // Redirect dengan pesan sukses
+    return redirect()->route('siswa.absensi.index')->with('success', 'Absensi berhasil ditambahkan.');
+}
+
 
     /**
      * Display the specified resource.

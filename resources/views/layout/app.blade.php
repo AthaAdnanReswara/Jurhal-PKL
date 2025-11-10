@@ -113,41 +113,50 @@
           </a>
         </li>
         @endif
-          @if(auth()->user()->role == 'siswa')
-          <li class="nav-item">
-            <a class="nav-link text-dark {{ request()->routeIs('siswa.dashboard') ? 'active bg-gradient-dark text-white' : 'text-dark' }}"
-              href="{{ route('siswa.dashboard')}}">
-              <i class="material-symbols-rounded opacity-5">dashboard</i>
-              <span class="nav-link-text ms-1">Dashboard</span>
-            </a>
-          </li>
+        @if(auth()->user()->role == 'siswa')
+        <li class="nav-item">
+          <a class="nav-link text-dark {{ request()->routeIs('siswa.dashboard') ? 'active bg-gradient-dark text-white' : 'text-dark' }}"
+            href="{{ route('siswa.dashboard')}}">
+            <i class="material-symbols-rounded opacity-5">dashboard</i>
+            <span class="nav-link-text ms-1">Dashboard</span>
+          </a>
+        </li>
 
-          <li class="nav-item">
-            <a class="nav-link text-dark {{ request()->routeIs('siswa.kegiatan.*') ? 'active bg-gradient-dark text-white' : 'text-dark' }}"
-              href="{{ route('siswa.kegiatan.index') }}">
-              <i class="material-symbols-rounded opacity-5">assignment</i>
-              <span class="nav-link-text ms-1">Kegiatan</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link text-dark {{ request()->routeIs('siswa.absensi.*') ? 'active bg-gradient-dark text-white' : 'text-dark' }}"
-              href="{{ route('siswa.absensi.index') }}">
-              <i class="material-symbols-rounded opacity-5">login</i>
-              <span class="nav-link-text ms-1">Absensi</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link text-dark {{ request()->routeIs('siswa.profile.*') ? 'active bg-gradient-dark text-white' : 'text-dark' }}"
-              href="{{ route('siswa.profile.index') }}">
-              <i class="material-symbols-rounded opacity-5">account_box</i>
-              <span class="nav-link-text ms-1">Profile</span>
-            </a>
-          </li>
-          @endif
-          
+        <li class="nav-item">
+          <a class="nav-link text-dark {{ request()->routeIs('siswa.kegiatan.*') ? 'active bg-gradient-dark text-white' : 'text-dark' }}"
+            href="{{ route('siswa.kegiatan.index') }}">
+            <i class="material-symbols-rounded opacity-5">assignment</i>
+            <span class="nav-link-text ms-1">Kegiatan</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-dark {{ request()->routeIs('siswa.absensi.*') ? 'active bg-gradient-dark text-white' : 'text-dark' }}"
+            href="{{ route('siswa.absensi.index') }}">
+            <i class="material-symbols-rounded opacity-5">login</i>
+            <span class="nav-link-text ms-1">Absensi</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-dark {{ request()->routeIs('siswa.profile.*') ? 'active bg-gradient-dark text-white' : 'text-dark' }}"
+            href="{{ route('siswa.profile.index') }}">
+            <i class="material-symbols-rounded opacity-5">account_box</i>
+            <span class="nav-link-text ms-1">Profile</span>
+          </a>
+        </li>
+        @endif
+        @if(auth()->user()->role == 'pembimbing')
+        <li class="nav-item">
+          <a class="nav-link text-dark {{ request()->routeIs('pembimbing.dashboard') ? 'active bg-gradient-dark text-white' : 'text-dark' }}"
+            href="{{ route('pembimbing.dashboard')}}">
+            <i class="material-symbols-rounded opacity-5">dashboard</i>
+            <span class="nav-link-text ms-1">Dashboard</span>
+          </a>
+        </li>
+        @endif
 
-          <!-- ... menu lainnya ... -->
-        </ul>
+
+        <!-- ... menu lainnya ... -->
+      </ul>
     </div>
     <div class="sidenav-footer position-absolute w-100 bottom-0">
       <div class="mx-3">

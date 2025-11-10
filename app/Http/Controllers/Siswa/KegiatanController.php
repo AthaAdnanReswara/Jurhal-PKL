@@ -4,14 +4,17 @@ namespace App\Http\Controllers\Siswa;
 
 use App\Http\Controllers\Controller;
 use App\Models\Kegiatan;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class KegiatanController extends Controller
 {
     // untuk menampilkan di admin
-    public function kegiatan(){
+    public function kegiatan()
+    {
         $kegiatans = Kegiatan::with(['siswa'])->get();
-        return view('admin.kegiatan.kegiatan',compact('kegiatans'));
+        return view('admin.kegiatan.kegiatan', compact('kegiatans'));
     }
 
     /**
@@ -20,7 +23,7 @@ class KegiatanController extends Controller
     public function index()
     {
         //
-        $kegiatan = Kegiatan::all();
+        $kegiatan = Kegiatan::where('id_siswa', Auth::user()->siswa->id)->get();
         return view('siswa.kegiatan.index', compact('kegiatan'));
     }
 
@@ -30,6 +33,7 @@ class KegiatanController extends Controller
     public function create()
     {
         //
+        return view('siswa.kegiatan.tambah');
     }
 
     /**
@@ -37,7 +41,31 @@ class KegiatanController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // Ambil user yang sedang login
+        $user = Auth::user();
+
+        // Validasi input
+        $data = $request->validate([
+            'tanggal' => 'required|date',
+            'jam_mulai' => 'required',
+            'jam_selesai' => 'required|after:jam_mulai',
+            'kegiatan' => 'required',
+            'dukumentasi' => 'required|image|mimes:jpg,jpeg,png',
+        ]);
+
+        $gambar = $request->file('dukumentasi')->store('kegiatan', 'public');
+
+        // Upload dokumentasi jika ada
+        kegiatan::create([
+            'id_siswa' => $user->siswa->id, // diasumsikan siswa login (Fogenky)
+            'tanggal' => $data['tanggal'],
+            'jam_mulai' => $data['jam_mulai'],
+            'jam_selesai' => $data['jam_selesai'],
+            'kegiatan' => $data['kegiatan'],
+            'dukumentasi' => $gambar
+        ]);
+
+        return redirect()->route('siswa.kegiatan.index')->with('success', 'sukses menambah data');
     }
 
     /**
@@ -51,24 +79,46 @@ class KegiatanController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Kegiatan $kegiatan)
     {
         //
+        return view('siswa.kegiatan.edit', compact('kegiatan'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Kegiatan $kegiatan)
     {
         //
+        $request->validate([
+            'tanggal' => 'required|date',
+            'jam_mulai' => 'required',
+            'jam_selesai' => 'required|after:jam_mulai',
+            'kegiatan' => 'required',
+            'dukumentasi' => 'nullable|image|mimes:jpg,jpeg,png',
+        ]);
+
+        $gambar = $request->file('dukumentasi')->store('kegiatan', 'public');
+        
+        $kegiatan->update([
+            'tanggal' => $request->tanggal,
+            'jam_mulai' => $request->jam_mulai,
+            'jam_selesai' => $request->jam_selesai,
+            'kegiatan' => $request->kegiatan,
+            'dukumentasi' => $gambar,
+        ]);
+
+        return redirect()->route('siswa.kegiatan.index')->with('success', 'sukses mengedit data');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Kegiatan $kegiatan)
     {
         //
+        $kegiatan->delete();
+        return redirect()->route('siswa.kegiatan.index')->with('success', 'berhasil menghapus data kegiatan');
     }
 }

@@ -7,7 +7,7 @@
     <form action="{{ route('admin.dudi.update', $dudi->id) }}" method="POST">
         @csrf @method('PUT')
         <div class="mb-3">
-            <label>Dudi</label>
+            <label>Dudi</label> 
             <input type="text" name="nama_dudi" value="{{ $dudi->nama_dudi }}" class="form-control" required>
         </div>
         <div class="mb-3">
