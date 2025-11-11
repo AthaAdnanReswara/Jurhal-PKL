@@ -75,7 +75,7 @@
 
                                                 <div class="mb-3">
                                                     <label>Jam Selesai</label>
-                                                    <input name="jam_selesai" class="form-control border px-2" value="{{ $item->jam_selesai }}" disabled>
+                                                    <input type="time" name="jam_selesai" class="form-control border px-2" value="{{ $item->jam_selesai }}" disabled>
                                                 </div>
 
                                                 <div class="mb-3">

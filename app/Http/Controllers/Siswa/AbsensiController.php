@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Siswa;
 
 use App\Http\Controllers\Controller;
 use App\Models\Absensi;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -39,34 +40,62 @@ class AbsensiController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-public function store(Request $request)
-{
-    // Ambil user yang sedang login
-    $user = Auth::user();
-    $siswa = $user->siswa; // relasi antara user dan siswa
+    public function store(Request $request)
+    {
+        $request->validate([
+            'status' => 'required',
+            'keterangan' => 'required_if:status,izin,sakit'
+        ]);
 
-    // Validasi input
-    $request->validate([
-        'tanggal' => 'required|date',
-        'jam_masuk' => 'required',
-        'jam_pulang' => 'required',
-        'status' => 'required|in:hadir,izin,sakit', // disesuaikan dengan enum di tabel
-        'keterangan' => 'nullable|string',
-    ]);
+        //Ambil tanggal hari ini 
+        $today = Carbon::today();
 
-    // Simpan data ke tabel absensis
-    Absensi::create([
-        'id_siswa' => $siswa->id, // siswa login (misal Fogenky)
-        'tanggal' => $request->tanggal,
-        'jam_masuk' => $request->jam_masuk,
-        'jam_pulang' => $request->jam_pulang,
-        'status' => $request->status,
-        'keterangan' => $request->keterangan ?? null,
-    ]);
+        //cegah absen 2x dalam 1 hari
+        if (Absensi::where('id_siswa', Auth::user()->siswa->id)->where('tanggal', $today)->exists()) {
+            return back()->with('error', 'Siswa sudah absen hari ini');
+        }
 
-    // Redirect dengan pesan sukses
-    return redirect()->route('siswa.absensi.index')->with('success', 'Absensi berhasil ditambahkan.');
-}
+        //cek absen terakhir
+        $lastAbsen = Absensi::where('id_siswa', Auth::user()->siswa->id)
+            ->orderBy('tanggal', 'desc')
+            ->first();
+
+        //isi otomais alpa untuk hari bolong (skip weekend)
+        if ($lastAbsen) {
+            //mulai dari h+1
+            $nexDate = Carbon::parse($lastAbsen->tanggal)->addDAy();
+
+            //selama < hari ini (tanggal terakhir absen)
+            while ($nexDate->It($today)) {
+                if (!in_array($nexDate->dayOfWeek, [Carbon::SATURDAY, Carbon::SUNDAY])) {
+                    Absensi::create([
+                        'id_siswa' => Auth::user()->siswa->id,
+                        'tanggal' => $nexDate->toDateString(),
+                        'status' => 'alpa',
+                        'keterangan' => 'Tidak melakukan absensi'
+                    ]);
+                }
+
+                //maju ke hari berikutnya
+                $nexDate->addDay();
+            }
+        }
+        //simpan Absen masuk
+        Absensi::create([
+            'id_siswa' => Auth::user()->siswa->id,
+            'tanggal' => $today,
+            'jam_masuk' => $request->status == 'hadir' ? now()->format('H:i:s') : null,
+            'status' => $request->status,
+            'keterangan' => $request->status == 'hadir' ? null : $request->keterangan,
+        ]);
+
+        return back()->with('success', 'Absensi Masuk Berhasil');
+    }
+
+    public function absenPulang($id)
+    {
+        
+    }
 
 
     /**

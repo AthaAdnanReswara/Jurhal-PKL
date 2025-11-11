@@ -27,7 +27,8 @@
         </div>
 
         <div class="mb-3">
-            <label>Dokumentasi</label>
+            <label>Dokumentasi</label><br>
+            <img src="{{ asset('storage/' . $kegiatan->dukumentasi) }}" alt="dukumentasi" width="35%" class="rounded shadow-sm">
             <input type="file" name="dukumentasi" value="{{ $kegiatan->dukumentasi }}" class="form-control border px-2">
         </div>
 

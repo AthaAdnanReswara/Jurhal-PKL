@@ -7,6 +7,7 @@ use App\Models\Kegiatan;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class KegiatanController extends Controller
 {
@@ -99,15 +100,21 @@ class KegiatanController extends Controller
             'dukumentasi' => 'nullable|image|mimes:jpg,jpeg,png',
         ]);
 
-        $gambar = $request->file('dukumentasi')->store('kegiatan', 'public');
-        
-        $kegiatan->update([
+        $data = [
             'tanggal' => $request->tanggal,
             'jam_mulai' => $request->jam_mulai,
             'jam_selesai' => $request->jam_selesai,
             'kegiatan' => $request->kegiatan,
-            'dukumentasi' => $gambar,
-        ]);
+        ];
+
+        if ($request->hasFile('dukumentasi')) {
+            if ($kegiatan->dukumentasi && Storage::disk('public')->exists($kegiatan->dukumentasi)) {
+                Storage::disk('public')->delete($kegiatan->dukumentasi);
+            }
+            $data['dukumentasi'] = $request->file('dukumentasi')->store('kegiatan', 'public');
+        }
+
+        $kegiatan->update($data);
 
         return redirect()->route('siswa.kegiatan.index')->with('success', 'sukses mengedit data');
     }
@@ -118,7 +125,12 @@ class KegiatanController extends Controller
     public function destroy(Kegiatan $kegiatan)
     {
         //
+        if ($kegiatan->dukumentasi) {
+            Storage::disk('public')->delete($kegiatan->dukumentasi);
+        }
+
         $kegiatan->delete();
+
         return redirect()->route('siswa.kegiatan.index')->with('success', 'berhasil menghapus data kegiatan');
     }
 }

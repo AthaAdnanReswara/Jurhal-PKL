@@ -21,7 +21,35 @@
             @endif
         </div>
         <div class="card-body px-0 pb-2">
-            <div class="table-responsive p-0" >
+            <form action="{{ route('siswa.absensi.store') }}" method="POST" class="mb-4">
+                @csrf
+
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="input-group input-group-outline">
+                            <select name="status" id="statusSelect" class="form-control">
+                                <option value="hadir">Hadir</option>
+                                <option value="izin">Izin</option>
+                                <option value="sakit">Sakit</option>
+                                <option value="libur">Libur</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="input-group input-group-outline">
+                            <input type="text" name="keterangan" id="keteranganInput" class="form-control"
+                                placeholder="Keterangan (izin/sakit)" disabled>
+                        </div>
+                    </div>
+
+                    <div class="col-md-2">
+                        <button class="btn btn-primary btn-sm">Masuk</button>
+                    </div>
+                </div>
+            </form>
+
+            <div class="table-responsive p-0">
                 <table class="table align-items-center mb-0" id="absensi">
                     <thead>
                         <tr>
@@ -65,6 +93,12 @@
         </div>
     </div>
 </div>
+
+<script>
+    document.getElementById('statusSelect').addEventListener('change',function () {
+        document.getElementById('keteranganInput').disabled = (this.value === 'hadir');
+    });
+</script>
 
 <script>
     $(document).ready(function() {
