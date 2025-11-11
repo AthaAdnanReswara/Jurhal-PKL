@@ -7,7 +7,8 @@
 <div class="container-fluid px-3 px-md-5">
 
     <!-- Header -->
-    <div class="page-header min-height-300 border-radius-xl mt-4" style="background-image: url('https://images.unsplash.com/photo-1531512073830-ba890ca4eba2?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80');">
+    <div class="page-header min-height-300 border-radius-xl mt-4"
+        style="background-image: url('https://images.unsplash.com/photo-1531512073830-ba890ca4eba2?auto=format&fit=crop&w=1920&q=80');">
         <span class="mask bg-gradient-dark opacity-5"></span>
         <div class="position-absolute bottom-0 left-0 p-4 text-white">
             <h4 class="fw-bold mb-1">{{ $siswa->user->name }}</h4>
@@ -32,6 +33,7 @@
                     <p class="text-muted mb-0">{{ $siswa->kelas->kelas ?? '-' }} | {{ $siswa->jurusan->jurusan ?? '-' }}</p>
                 </div>
                 <div class="col-auto">
+                    <!-- Tombol Buka Modal -->
                     <button class="btn btn-dark btn-sm" data-bs-toggle="modal" data-bs-target="#editProfileModal">
                         <i class="material-icons align-middle me-1">edit</i> Edit Profil
                     </button>
@@ -47,13 +49,13 @@
                             <h6 class="mb-0">Data Pribadi</h6>
                         </div>
                         <div class="card-body small">
-                            <p><strong>NIS:</strong> {{ $siswa->nis ?? '-' }}</p>
                             <p><strong>Nama Lengkap:</strong> {{ $siswa->user->name }}</p>
-                            <p><strong>Jenis Kelamin:</strong> {{ ucfirst($siswa->gender) ?? '-' }}</p>
-                            <p><strong>TTL:</strong> {{ ($siswa->tempat_lahir ?? '-') }},
+                            <p><strong>NIS:</strong> {{ $siswa->NIS ?? '-' }}</p>
+                            <p><strong>Jenis Kelamin:</strong> {{ ucfirst($siswa->jenis_kelamin) ?? '-' }}</p>
+                            <p><strong>TTL:</strong> {{ $siswa->tempat_lahir ?? '-' }},
                                 {{ $siswa->tanggal_lahir ? \Carbon\Carbon::parse($siswa->tanggal_lahir)->format('d M Y') : '-' }}
                             </p>
-                            <p><strong>Golongan Darah:</strong> {{ $siswa->gol_darah ?? '-' }}</p>
+                            <p><strong>Golongan Darah:</strong> {{ $siswa->golongan_darah ?? '-' }}</p>
                         </div>
                     </div>
                 </div>
@@ -68,7 +70,7 @@
                             <p><strong>Kelas:</strong> {{ $siswa->kelas->kelas ?? '-' }}</p>
                             <p><strong>Jurusan:</strong> {{ $siswa->jurusan->jurusan ?? '-' }}</p>
                             <p><strong>Email:</strong> {{ $siswa->user->email }}</p>
-                            <p><strong>Nomor Telepon:</strong> {{ $siswa->nomor ?? '-' }}</p>
+                            <p><strong>Nomor Telepon:</strong> {{ $siswa->no_hp ?? '-' }}</p>
                             <p><strong>Alamat:</strong> {{ $siswa->alamat ?? '-' }}</p>
                         </div>
                     </div>
@@ -97,7 +99,7 @@
                             @if ($dudi)
                             <p><strong>Nama DUDI:</strong> {{ $dudi->nama_dudi }}</p>
                             <p><strong>Pembimbing DUDI:</strong> {{ $dudi->pembimbing }}</p>
-                            <p><strong>Kontak:</strong> {{ $dudi->kontak }}</p>
+                            <p><strong>Kontak:</strong> {{ $dudi->no_hp }}</p>
                             @else
                             <p class="text-muted">Belum ada DUDI ditetapkan.</p>
                             @endif
@@ -109,81 +111,61 @@
     </div>
 </div>
 
-<!-- Modal Edit Profil -->
-<div class="modal fade" id="editProfileModal" tabindex="-1" aria-labelledby="editProfileModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-centered">
-        <div class="modal-content border-0 shadow-lg rounded-3 overflow-hidden">
-            <div class="modal-header bg-gradient-dark text-white">
-                <h5 class="modal-title text-white">Edit Profil Siswa</h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+<!-- ✅ Modal Edit Profil -->
+<div class="modal fade" id="editProfileModal" tabindex="-1" aria-labelledby="editProfileLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-dark text-white">
+                <h5 class="modal-title" id="editProfileLabel">Edit Data Siswa</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
 
-            <form action="{{ route('siswa.profile.update', $siswa->id) }}" method="POST">
+            <form action="{{ route('siswa.profile.update', $siswa->user->id) }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
-                <div class="modal-body px-4 py-3">
-                    <div class="row g-3">
-                        <div class="col-md-6">
-                            <label class="form-label">Nama Lengkap</label>
-                            <input type="text" name="name" class="form-control" value="{{ $siswa->user->name }}">
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label">Email</label>
-                            <input type="email" name="email" class="form-control" value="{{ $siswa->user->email }}">
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label">NIS</label>
-                            <input type="text" name="nis" class="form-control" value="{{ $siswa->nis }}">
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label">Kelas</label>
-                            <select name="id_kelas" class="form-select">
-                                @foreach($kelas as $k)
-                                <option value="{{ $k->id }}" {{ $siswa->id_kelas == $k->id ? 'selected' : '' }}>
-                                    {{ $k->kelas }}
-                                </option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label">Jurusan</label>
-                            <select name="id_jurusan" class="form-select">
-                                @foreach($jurusan as $j)
-                                <option value="{{ $j->id }}" {{ $siswa->id_jurusan == $j->id ? 'selected' : '' }}>
-                                    {{ $j->jurusan }}
-                                </option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label">Tempat Lahir</label>
-                            <input type="text" name="tempat_lahir" class="form-control" value="{{ $siswa->tempat_lahir }}">
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label">Tanggal Lahir</label>
-                            <input type="date" name="tanggal_lahir" class="form-control"
-                                value="{{ $siswa->tanggal_lahir ? \Carbon\Carbon::parse($siswa->tanggal_lahir)->format('Y-m-d') : '' }}">
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label">Jenis Kelamin</label>
-                            <select name="gender" class="form-select">
-                                <option value="laki-laki" {{ $siswa->gender == 'laki-laki' ? 'selected' : '' }}>Laki-laki</option>
-                                <option value="perempuan" {{ $siswa->gender == 'perempuan' ? 'selected' : '' }}>Perempuan</option>
-                            </select>
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label">Nomor Telepon</label>
-                            <input type="text" name="nomor" class="form-control" value="{{ $siswa->nomor }}">
-                        </div>
-                        <div class="col-12">
-                            <label class="form-label">Alamat</label>
-                            <textarea name="alamat" class="form-control" rows="3">{{ $siswa->alamat }}</textarea>
-                        </div>
+
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label>Nama</label>
+                        <input type="text" name="name" class="form-control" value="{{ $siswa->user->name }}" required>
+                    </div>
+
+
+                    <div class="mb-3">
+                        <label>Tempat Lahir</label>
+                        <input type="text" name="tempat_lahir" class="form-control" value="{{ $siswa->tempat_lahir }}" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label>Tanggal Lahir</label>
+                        <input type="date" name="tanggal_lahir" class="form-control" value="{{ $siswa->tanggal_lahir }}" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label>Jenis Kelamin</label>
+                        <select name="jenis_kelamin" class="form-control" required>
+                            <option value="Laki-laki" {{ $siswa->jenis_kelamin == 'Laki-laki' ? 'selected' : '' }}>Laki-laki</option>
+                            <option value="Perempuan" {{ $siswa->jenis_kelamin == 'Perempuan' ? 'selected' : '' }}>Perempuan</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label>Nama DUDI</label>
+                        <input type="text" name="nama_dudi" class="form-control" value="{{ $siswa->nama_dudi }}">
+                    </div>
+
+                    <div class="mb-3">
+                        <label>Foto (opsional)</label>
+                        <input type="file" name="foto" class="form-control">
+                        @if($siswa->foto)
+                        <img src="{{ asset('storage/' . $siswa->foto) }}" width="80" class="mt-2 rounded">
+                        @endif
                     </div>
                 </div>
-                <div class="modal-footer bg-light">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-                    <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                    <button type="submit" class="btn btn-success">Simpan Perubahan</button>
                 </div>
             </form>
         </div>

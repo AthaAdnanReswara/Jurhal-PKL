@@ -10,14 +10,18 @@
             </div>
         </div>
         <div class="m-3 mb-2">
-            <a href="{{ route('siswa.absensi.create') }}" class="btn btn-primary mb-3">Tambah Absen</a>
-
             @if(session('success'))
             <div class="alert alert-success alert-dismissible text-white">{{ session('success') }}
                 <button type="button" class="btn-close text-lg py-3 opacity-10" data-bs-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
+            @endif
+            @if(session('error'))
+            <div class="alert alert-danger small mx-3">{{ session('error') }}</div>
+            @endif
+            @if($errors->any())
+            <div class="alert alert-danger small mx-3">{{ $errors->first() }}</div>
             @endif
         </div>
         <div class="card-body px-0 pb-2">
@@ -60,8 +64,6 @@
                             <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Jam Pulang</th>
                             <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status</th>
                             <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Keterangan</th>
-                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">created_at</th>
-                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">updated_at</th>
                             <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Aksi</th>
                         </tr>
                     </thead>
@@ -75,16 +77,13 @@
                             <td class="align-middle text-sm">{{ $d->jam_pulang }}</td>
                             <td class="align-middle text-sm">{{ $d->status }}</td>
                             <td class="align-middle text-sm">{{ $d->keterangan }}</td>
-                            <td class="align-middle text-sm">{{ $d->created_at->format('d-m-Y H:i') }}</td>
-                            <td class="align-middle text-sm">{{ $d->updated_at->format('d-m-Y H:i') }}</td>
                             <td class="align-middle text-sm">
-                                <a href="{{ route('siswa.absensis.edit', $d->id) }}" class="btn btn-warning btn-sm">Edit</a>
-                                <form action="{{ route('siswa.absensis.destroy', $d->id) }}" method="POST" class="d-inline">
-                                    @csrf @method('DELETE')
-                                    <button class="btn btn-danger btn-sm" onclick="return confirm('Hapus absensi ini?')">Hapus</button>
-                                </form>
+                                @if ($d->status == 'hadir' && $d->jam_pulang == null)
+                                <a href="{{ route('siswa.absensi.pulang', $d->id) }}" class="btn btn-success btn-sm">Pulang</a>
+                                @else
+                                <span class="badge bg-secondary">Selesai</span>
+                                @endif
                             </td>
-
                         </tr>
                         @endforeach
                     </tbody>
@@ -95,7 +94,7 @@
 </div>
 
 <script>
-    document.getElementById('statusSelect').addEventListener('change',function () {
+    document.getElementById('statusSelect').addEventListener('change', function() {
         document.getElementById('keteranganInput').disabled = (this.value === 'hadir');
     });
 </script>

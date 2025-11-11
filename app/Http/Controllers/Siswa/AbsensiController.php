@@ -44,7 +44,7 @@ class AbsensiController extends Controller
     {
         $request->validate([
             'status' => 'required',
-            'keterangan' => 'required_if:status,izin,sakit'
+            'keterangan' => 'required_if:status,izin,sakit,libur'
         ]);
 
         //Ambil tanggal hari ini 
@@ -94,7 +94,21 @@ class AbsensiController extends Controller
 
     public function absenPulang($id)
     {
-        
+        $absensi = Absensi::findOrFail($id);
+
+        if ($absensi->status != 'hadir') {
+            return back()->with('error', 'Absen pulang hanya untuk siswa yang hadir.');
+        }
+
+        if($absensi->jam_pulang !== null) {
+            return back()->with('error', 'sudah absen pulang sebelumnya');
+        }
+
+        $absensi->update([
+            'jam_pulang'=> now()->format('H:i:s')
+        ]);
+
+        return back()->with('success','Absen pulang berhasil');
     }
 
 

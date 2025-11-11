@@ -55,6 +55,7 @@ Route::prefix('siswa')->name('siswa.')->middleware(['auth','role:siswa'])->group
     Route::resource('kegiatan', KegiatanController::class);
     //Absensi siswa
     Route::resource('absensi', AbsensiController::class);
+    Route::get('/absensi/pulang/{id}', [AbsensiController::class,'absenPulang'])->name('absensi.pulang');
 });
 
 Route::prefix('pembimbing')->name('pembimbing.')->middleware(['auth','role:pembimbing'])->group(function (){

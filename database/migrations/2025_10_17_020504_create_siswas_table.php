@@ -18,10 +18,14 @@ return new class extends Migration
             $table->foreignId('jurusan_id')->constrained('jurusans');
             $table->string('tempat_lahir', 255);
             $table->date('tanggal_lahir');
+            $table->string('alamat', 255);
             $table->foreignId('kelas_id')->constrained('kelas');
+            $table->string('golongan_darah')->nullable();
             $table->enum('jenis_kelamin',['laki-laki','perempuan','tidak diketahui']);
             $table->foreignId('nama_dudi')->constrained('dudis')->cascadeOnDelete();
             $table->foreignId('pembimbing_id')->constrained('users')->cascadeOnDelete();
+            $table->string('foto', 255);
+            $table->integer('no_hp', 15)->nullable();
             $table->timestamps();
         });
     }
