@@ -73,10 +73,10 @@
                             <td class="align-middle text-sm">{{ $loop->iteration }}</td>
                             <td class="align-middle text-sm">{{ $d->siswa->user->name }}</td>
                             <td class="align-middle text-sm">{{ $d->tanggal }}</td>
-                            <td class="align-middle text-sm">{{ $d->jam_mulai }}</td>
+                            <td class="align-middle text-sm">{{ $d->jam_masuk }}</td>
                             <td class="align-middle text-sm">{{ $d->jam_pulang }}</td>
                             <td class="align-middle text-sm">{{ $d->status }}</td>
-                            <td class="align-middle text-sm">{{ $d->keterangan }}</td>
+                            <td class="align-middle text-sm">{{ $d->Keterangan }}</td>
                             <td class="align-middle text-sm">
                                 @if ($d->status == 'hadir' && $d->jam_pulang == null)
                                 <a href="{{ route('siswa.absensi.pulang', $d->id) }}" class="btn btn-success btn-sm">Pulang</a>

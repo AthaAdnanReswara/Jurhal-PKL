@@ -66,7 +66,7 @@ class AbsensiController extends Controller
             $nexDate = Carbon::parse($lastAbsen->tanggal)->addDAy();
 
             //selama < hari ini (tanggal terakhir absen)
-            while ($nexDate->It($today)) {
+            while ($nexDate->lt($today)) {
                 if (!in_array($nexDate->dayOfWeek, [Carbon::SATURDAY, Carbon::SUNDAY])) {
                     Absensi::create([
                         'id_siswa' => Auth::user()->siswa->id,

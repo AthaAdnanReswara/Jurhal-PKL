@@ -15,8 +15,11 @@ class Siswa extends Model
         'tanggal_lahir',
         'kelas_id',
         'jenis_kelamin',
+        'golongan_darah',
         'nama_dudi',
         'pembimbing_id',
+        'foto',
+        'no_hp',
     ]);
 
     public function user() {
