@@ -17,7 +17,7 @@ return new class extends Migration
             $table->date('tanggal');
             $table->time('jam_mulai');
             $table->time('jam_selesai');
-            $table->text('kegiatan', 255);
+            $table->text('kegiatan',);
             $table->string('dukumentasi', 255 );
             $table->text('catatan_pembimbing')->nullable();
             $table->timestamps();
