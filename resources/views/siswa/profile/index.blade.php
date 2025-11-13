@@ -125,7 +125,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
 
-            <form action="{{ route('siswa.profile.update', $siswa->user->id) }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('siswa.profile.update', $profile->id) }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
 
@@ -148,7 +148,7 @@
 
                     <div class="mb-3">
                         <label>Password</label>
-                        <input type="password" name="email" class="form-control border">
+                        <input type="password" name="password" class="form-control border">
                     </div>
                     @error('password')
                     <div class="text-danger">{{ $message }}</div>
@@ -167,6 +167,14 @@
                         <input type="date" name="tanggal_lahir" class="form-control border" value="{{ $siswa->tangga_lahir }}">
                     </div>
                     @error('tangga_lahir')
+                    <div class="text-danger">{{ $message }}</div>
+                    @enderror
+
+                    <div class="mb-3">
+                        <label>Golongan Darah</label>
+                        <input type="text" name="golongan_darah" class="form-control border" value="{{ $siswa->golongan_darah }}">
+                    </div>
+                    @error('golongan_darah')
                     <div class="text-danger">{{ $message }}</div>
                     @enderror
 

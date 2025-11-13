@@ -60,11 +60,11 @@ class ProfilSiswaController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        // 
 
     }
 
-    public function update(Request $request, string $id)
+    public function update(Request $request, string $profile)
     {
         $user = Auth::user();
         $siswa = $user->siswa;
@@ -77,16 +77,16 @@ class ProfilSiswaController extends Controller
 
             'tempat_lahir' => 'required|string|max:255',
             'tanggal_lahir' => 'required|date',
-            'jenis_kelamain' => 'required|string',
+            'jenis_kelamin' => 'required|string',
             'golongan_darah' => 'nullable|string|max:3',
             'foto' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
 
-         // 2️⃣ Update data user
-
         if($request->filled('password')) {
             $user->password = Hash::make($request->password);
         }
+
+        // 2️⃣ Update data user
 
         $dataUser = [
             'name'=> $request->name,
@@ -97,7 +97,7 @@ class ProfilSiswaController extends Controller
         $dataSiswa = [
             'tempat_lahir' => $request->tempat_lahir,
             'tanggal_lahir' => $request->tanggal_lahir,
-            'jenisa_kelamain' => $request->jenisa_kelamain,
+            'jenis_kelamin' => $request->jenis_kelamin,
             'golongan_darah' => $request->golongan_darah,
         ];
 
@@ -108,7 +108,7 @@ class ProfilSiswaController extends Controller
             $dataSiswa['foto'] = $request->file('foto')->store('profile', 'public');
         }
 
-        $user->update($dataSiswa);
+        $user->update($dataUser);
         $siswa->update($dataSiswa);
 
 

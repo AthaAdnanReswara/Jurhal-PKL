@@ -18,7 +18,7 @@ Route::get('/', function () {
 });
 
 // Auth routes  logout
-Route::middleware('guest')->group(function(){
+Route::middleware('guest')->group(function () {
     Route::get('/login', [AuthController::class, 'loginForm'])->name('login');
     Route::post('/login', [AuthController::class, 'login']);
 });
@@ -26,7 +26,7 @@ Route::middleware('guest')->group(function(){
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth');
 
 //prefik untuk admin routes
-Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin'])->group(function (){
+Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin'])->group(function () {
     //Dashboard
     Route::get('dashboard', [DashboardController::class, 'login'])->name('dashboard');
     // route tambah user/siswa
@@ -38,27 +38,26 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin'])->grou
     //Dudi
     Route::resource('dudi', DudiController::class);
     //Pembimbing
-    Route::resource('pembimbing',PembimbingController::class);
+    Route::resource('pembimbing', PembimbingController::class);
     //kegiatan
-    Route::get('/kegiatan',[KegiatanController::class, 'kegiatan'])->name('kegiatan');
+    Route::get('/kegiatan', [KegiatanController::class, 'kegiatan'])->name('kegiatan');
     //Absensi
-    Route::get('/absensi',[AbsensiController::class, 'absensi'])->name('absensi');
-
+    Route::get('/absensi', [AbsensiController::class, 'absensi'])->name('absensi');
 });
 
-Route::prefix('siswa')->name('siswa.')->middleware(['auth','role:siswa'])->group(function (){
+Route::prefix('siswa')->name('siswa.')->middleware(['auth', 'role:siswa'])->group(function () {
     //Dashboard
-    Route::get('dashboard',[DashboardController::class, 'login'])->name('dashboard');
-    //Profail Siswa
-    Route::resource('profile', ProfilSiswaController::class);
+    Route::get('dashboard', [DashboardController::class, 'login'])->name('dashboard');
     //kegiatan siswa
     Route::resource('kegiatan', KegiatanController::class);
     //Absensi siswa
     Route::resource('absensi', AbsensiController::class);
-    Route::get('/absensi/pulang/{id}', [AbsensiController::class,'absenPulang'])->name('absensi.pulang');
+    Route::get('/absensi/pulang/{id}', [AbsensiController::class, 'absenPulang'])->name('absensi.pulang');
+    //Profail Siswa
+    Route::resource('profile', ProfilSiswaController::class);
 });
 
-Route::prefix('pembimbing')->name('pembimbing.')->middleware(['auth','role:pembimbing'])->group(function (){
+Route::prefix('pembimbing')->name('pembimbing.')->middleware(['auth', 'role:pembimbing'])->group(function () {
     //Dashboard
-    Route::get('dashboard',[DashboardController::class, 'login'])->name('dashboard');
+    Route::get('dashboard', [DashboardController::class, 'login'])->name('dashboard');
 });
