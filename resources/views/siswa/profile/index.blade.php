@@ -24,17 +24,22 @@
             <div class="row align-items-center mb-4">
                 <div class="col-auto">
                     <div class="avatar avatar-xxl position-relative">
+                        @if($siswa->poto)
+                        <img src="{{ asset('storage/' . $siswa->poto) }}" alt="dukumentasi" width="80%" class="rounded shadow-sm">
+                        @else
                         <img src="{{ asset('assets/img/bruce-mars.jpg') }}" alt="profile_image"
                             class="w-100 border-radius-lg shadow-sm border border-3 border-white">
+                        @endif
+
                     </div>
                 </div>
                 <div class="col">
                     <h5 class="fw-bold mb-1">{{ $siswa->user->name }}</h5>
                     <p class="text-muted mb-0">{{ $siswa->kelas->kelas ?? '-' }} | {{ $siswa->jurusan->jurusan ?? '-' }}</p>
                 </div>
-                <div class="col-auto">
+                <div class="col-auto text-end">
                     <!-- Tombol Buka Modal -->
-                    <button class="btn btn-dark btn-sm" data-bs-toggle="modal" data-bs-target="#editProfileModal">
+                    <button type="button" class="btn btn-dark btn-sm w-100 p-2" data-bs-toggle="modal" data-bs-target="#editProfile{{ $siswa->id }}">
                         <i class="material-icons align-middle me-1">edit</i> Edit Profil
                     </button>
                 </div>
@@ -53,7 +58,7 @@
                             <p><strong>NIS:</strong> {{ $siswa->NIS ?? '-' }}</p>
                             <p><strong>Jenis Kelamin:</strong> {{ ucfirst($siswa->jenis_kelamin) ?? '-' }}</p>
                             <p><strong>TTL:</strong> {{ $siswa->tempat_lahir ?? '-' }},
-                                {{ $siswa->tanggal_lahir ? \Carbon\Carbon::parse($siswa->tanggal_lahir)->format('d M Y') : '-' }}
+                                {{ $siswa->tanggal_lahir ? \Carbon\Carbon::parse($siswa->tanggal_lahir)->format('d F Y') : '-' }}
                             </p>
                             <p><strong>Golongan Darah:</strong> {{ $siswa->golongan_darah ?? '-' }}</p>
                         </div>
@@ -67,7 +72,7 @@
                             <h6 class="mb-0">Akademik & Kontak</h6>
                         </div>
                         <div class="card-body small">
-                            <p><strong>Kelas:</strong> {{ $siswa->kelas->kelas ?? '-' }}</p>
+                            <p><strong>Kelas:</strong> {{ $siswa->kelas->nama_kelas ?? '-' }}</p>
                             <p><strong>Jurusan:</strong> {{ $siswa->jurusan->jurusan ?? '-' }}</p>
                             <p><strong>Email:</strong> {{ $siswa->user->email }}</p>
                             <p><strong>Nomor Telepon:</strong> {{ $siswa->no_hp ?? '-' }}</p>
@@ -94,10 +99,10 @@
                             @else
                             <p class="text-muted">Belum ada pembimbing ditetapkan.</p>
                             @endif
-                            <hr>
-                            <h6 class="fw-bold">Dunia Kerja</h6>
+                            <h4 class="fw-bold text-decoration-underline">Dunia Kerja</h4>
                             @if ($dudi)
                             <p><strong>Nama DUDI:</strong> {{ $dudi->nama_dudi }}</p>
+                            <p><strong>Direktur DUDI:</strong> {{ $dudi->direktur }}</p>
                             <p><strong>Pembimbing DUDI:</strong> {{ $dudi->pembimbing }}</p>
                             <p><strong>Kontak:</strong> {{ $dudi->no_hp }}</p>
                             @else
@@ -112,11 +117,11 @@
 </div>
 
 <!-- ✅ Modal Edit Profil -->
-<div class="modal fade" id="editProfileModal" tabindex="-1" aria-labelledby="editProfileLabel" aria-hidden="true">
+<div class="modal fade" id="editProfile{{ $siswa->id }}" tabindex="-1" aria-labelledby="editProfileLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <div class="modal-header bg-dark text-white">
-                <h5 class="modal-title" id="editProfileLabel">Edit Data Siswa</h5>
+            <div class="modal-header bg-dark ">
+                <h5 class="modal-title text-white" id="editProfileLabel">Ubah Data Siswa</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
 
@@ -126,41 +131,67 @@
 
                 <div class="modal-body">
                     <div class="mb-3">
-                        <label>Nama</label>
-                        <input type="text" name="name" class="form-control" value="{{ $siswa->user->name }}" required>
+                        <label>Nama Lengkap</label>
+                        <input type="text" name="name" class="form-control border" value="{{ $siswa->user->name }}">
                     </div>
+                    @error('name')
+                    <div class="text-danger">{{ $message }}</div>
+                    @enderror
 
+                    <div class="mb-3">
+                        <label>Email</label>
+                        <input type="email" name="email" class="form-control border" value="{{ $siswa->user->email }}">
+                    </div>
+                    @error('email')
+                    <div class="text-danger">{{ $message }}</div>
+                    @enderror
+
+                    <div class="mb-3">
+                        <label>Password</label>
+                        <input type="password" name="email" class="form-control border">
+                    </div>
+                    @error('password')
+                    <div class="text-danger">{{ $message }}</div>
+                    @enderror
 
                     <div class="mb-3">
                         <label>Tempat Lahir</label>
-                        <input type="text" name="tempat_lahir" class="form-control" value="{{ $siswa->tempat_lahir }}" required>
+                        <input type="text" name="tempat_lahir" class="form-control border" value="{{ $siswa->tempat_lahir }}">
                     </div>
+                    @error('tempat_lahir')
+                    <div class="text-danger">{{ $message }}</div>
+                    @enderror
 
                     <div class="mb-3">
                         <label>Tanggal Lahir</label>
-                        <input type="date" name="tanggal_lahir" class="form-control" value="{{ $siswa->tanggal_lahir }}" required>
+                        <input type="date" name="tanggal_lahir" class="form-control border" value="{{ $siswa->tangga_lahir }}">
                     </div>
+                    @error('tangga_lahir')
+                    <div class="text-danger">{{ $message }}</div>
+                    @enderror
 
                     <div class="mb-3">
                         <label>Jenis Kelamin</label>
-                        <select name="jenis_kelamin" class="form-control" required>
+                        <select name="jenis_kelamin" id="jenis_kelamin" class="form-control border" required>
+                            <option value="tidak diketahui" {{ $siswa->jenis_kelamin == 'tidak diketahui' ? 'selected' : '' }}>Tidak Diketahui</option>
                             <option value="Laki-laki" {{ $siswa->jenis_kelamin == 'Laki-laki' ? 'selected' : '' }}>Laki-laki</option>
                             <option value="Perempuan" {{ $siswa->jenis_kelamin == 'Perempuan' ? 'selected' : '' }}>Perempuan</option>
                         </select>
                     </div>
-
-                    <div class="mb-3">
-                        <label>Nama DUDI</label>
-                        <input type="text" name="nama_dudi" class="form-control" value="{{ $siswa->nama_dudi }}">
-                    </div>
+                    @error('jenis_kelamin')
+                    <div class="text-danger">{{ $message }}</div>
+                    @enderror
 
                     <div class="mb-3">
                         <label>Foto (opsional)</label>
-                        <input type="file" name="foto" class="form-control">
+                        <input type="file" name="foto" class="form-control border">
                         @if($siswa->foto)
                         <img src="{{ asset('storage/' . $siswa->foto) }}" width="80" class="mt-2 rounded">
                         @endif
                     </div>
+                    @error('foto')
+                    <div class="text-danger">{{ $message }}</div>
+                    @enderror
                 </div>
 
                 <div class="modal-footer">

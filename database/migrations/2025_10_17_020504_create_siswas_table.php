@@ -24,7 +24,7 @@ return new class extends Migration
             $table->enum('jenis_kelamin',['laki-laki','perempuan','tidak diketahui']);
             $table->foreignId('nama_dudi')->constrained('dudis')->cascadeOnDelete();
             $table->foreignId('pembimbing_id')->constrained('users')->cascadeOnDelete();
-            $table->string('foto', 255);
+            $table->string('foto', 255)->nullable();
             $table->integer('no_hp', 15)->nullable();
             $table->timestamps();
         });
