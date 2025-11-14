@@ -17,8 +17,8 @@
             <div class="card-header p-2 ps-3" >
                 <div class="d-flex justify-content-between">
                     <div>
-                        <p class="text-sm mb-0 text-capitalize">Kegiatan</p>
-                        <h4 class="mb-0"></h4>
+                        <p class="text-sm mb-0 text-capitalize">Dudi</p>
+                        <h4 class="mb-0">{{ $totalDudi }}</h4>
                     </div>
                     <div class="icon icon-md icon-shape bg-gradient-dark shadow-dark shadow text-center border-radius-lg">
                         <i class="material-symbols-rounded opacity-10">group</i>
@@ -27,9 +27,9 @@
             </div>
             <hr class="dark horizontal my-0">
             <div class="card-footer p-2 ps-3">
-                <p class="mb-0 text-sm"><span class="text-success font-weight-bolder"></span><a href="">Lihat Kegiatan</a></p>
+                <p class="mb-0 text-sm"><span class="text-success font-weight-bolder"></span><a href="">Lihat Total Dudi</a></p>
             </div>
-        </div>
+        </div> 
     </div>
     <div class="col-xl-6 col-sm-6 mb-xl-0 mb-4">
         <div class="card">
@@ -46,7 +46,7 @@
             </div>
             <hr class="dark horizontal my-0">
             <div class="card-footer p-2 ps-3">
-                <p class="mb-0 text-sm"><span class="text-success font-weight-bolder"></span><a href="">Lihat Kegiatan</a></p>
+                <p class="mb-0 text-sm"><span class="text-success font-weight-bolder"></span><a href="">Lihat Siswa</a></p>
             </div>
         </div>
     </div>

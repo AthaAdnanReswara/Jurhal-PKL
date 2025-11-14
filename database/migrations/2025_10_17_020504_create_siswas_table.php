@@ -25,7 +25,7 @@ return new class extends Migration
             $table->foreignId('nama_dudi')->constrained('dudis')->cascadeOnDelete();
             $table->foreignId('pembimbing_id')->constrained('users')->cascadeOnDelete();
             $table->string('foto', 255)->nullable();
-            $table->integer('no_hp', 15)->nullable();
+            $table->string('no_hp')->nullable();
             $table->timestamps();
         });
     }

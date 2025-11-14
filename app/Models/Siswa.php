@@ -7,12 +7,13 @@ use Illuminate\Database\Eloquent\Model;
 class Siswa extends Model
 {
     //
-    protected $fillable = ([
+    protected $fillable = [
         'id_siswa',
         'NIS',
         'jurusan_id',
         'tempat_lahir',
         'tanggal_lahir',
+        'alamat',
         'kelas_id',
         'jenis_kelamin',
         'golongan_darah',
@@ -20,7 +21,7 @@ class Siswa extends Model
         'pembimbing_id',
         'foto',
         'no_hp',
-    ]);
+    ];
 
     public function user() {
         return $this->belongsTo(User::class, 'id_siswa');

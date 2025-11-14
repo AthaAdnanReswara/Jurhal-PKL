@@ -21,7 +21,7 @@ class ProfilSiswaController extends Controller
     {
         //
         $user = Auth::user();
-
+ 
         $siswa = $user->siswa;
         $pembimbing = $siswa ? $siswa->pembimbing : null;
         $kelas = Kelas::all();
@@ -64,7 +64,7 @@ class ProfilSiswaController extends Controller
 
     }
 
-    public function update(Request $request, string $profile)
+    public function update(Request $request)
     {
         $user = Auth::user();
         $siswa = $user->siswa;
@@ -72,12 +72,14 @@ class ProfilSiswaController extends Controller
         // 1️⃣ Validasi input
         $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:user,email,' . $user->id,
+            'email' => 'required|email|unique:users,email,' . $user->id,
             'password'=> 'nullable|min:3',
 
             'tempat_lahir' => 'required|string|max:255',
             'tanggal_lahir' => 'required|date',
             'jenis_kelamin' => 'required|string',
+            'alamat' => 'required|string',
+            'no_hp' => 'required|string',
             'golongan_darah' => 'nullable|string|max:3',
             'foto' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
@@ -91,13 +93,15 @@ class ProfilSiswaController extends Controller
         $dataUser = [
             'name'=> $request->name,
             'email'=> $request->email,
-            'password'=> $request->password,
+            'password'=> $user->password,
         ];
 
         $dataSiswa = [
             'tempat_lahir' => $request->tempat_lahir,
             'tanggal_lahir' => $request->tanggal_lahir,
             'jenis_kelamin' => $request->jenis_kelamin,
+            'alamat' => $request->alamat,
+            'no_hp' => $request->no_hp,
             'golongan_darah' => $request->golongan_darah,
         ];
 

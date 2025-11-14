@@ -12,7 +12,7 @@
         <span class="mask bg-gradient-dark opacity-5"></span>
         <div class="position-absolute bottom-0 left-0 p-4 text-white">
             <h4 class="fw-bold mb-1">{{ $siswa->user->name }}</h4>
-            <p class="mb-0">{{ $siswa->kelas->kelas ?? '-' }} - {{ $siswa->jurusan->jurusan ?? '-' }}</p>
+            <p class="mb-0">{{ $siswa->kelas->nama_kelas }} - {{ $siswa->jurusan->jurusan ?? '-' }}</p>
         </div>
     </div>
 
@@ -24,8 +24,8 @@
             <div class="row align-items-center mb-4">
                 <div class="col-auto">
                     <div class="avatar avatar-xxl position-relative">
-                        @if($siswa->poto)
-                        <img src="{{ asset('storage/' . $siswa->poto) }}" alt="dukumentasi" width="80%" class="rounded shadow-sm">
+                        @if($siswa->foto)
+                        <img src="{{ asset('storage/' . $siswa->foto) }}" alt="foto" width="80%" class="rounded shadow-sm">
                         @else
                         <img src="{{ asset('assets/img/bruce-mars.jpg') }}" alt="profile_image"
                             class="w-100 border-radius-lg shadow-sm border border-3 border-white">
@@ -35,7 +35,7 @@
                 </div>
                 <div class="col">
                     <h5 class="fw-bold mb-1">{{ $siswa->user->name }}</h5>
-                    <p class="text-muted mb-0">{{ $siswa->kelas->kelas ?? '-' }} | {{ $siswa->jurusan->jurusan ?? '-' }}</p>
+                    <p class="text-muted mb-0">{{ $siswa->kelas->nama_kelas ?? '-' }} | {{ $siswa->jurusan->jurusan ?? '-' }}</p>
                 </div>
                 <div class="col-auto text-end">
                     <!-- Tombol Buka Modal -->
@@ -125,7 +125,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
 
-            <form action="{{ route('siswa.profile.update', $profile->id) }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('siswa.profile.update', $siswa->id) }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
 
@@ -175,6 +175,20 @@
                         <input type="text" name="golongan_darah" class="form-control border" value="{{ $siswa->golongan_darah }}">
                     </div>
                     @error('golongan_darah')
+                    <div class="text-danger">{{ $message }}</div>
+                    @enderror
+                    <div class="mb-3">
+                        <label>Alamat</label>
+                        <input type="text" name="alamat" class="form-control border" value="{{ $siswa->alamat }}">
+                    </div>
+                    @error('alamat')
+                    <div class="text-danger">{{ $message }}</div>
+                    @enderror
+                    <div class="mb-3">
+                        <label>Telepon</label>
+                        <input type="text" name="no_hp" class="form-control border" value="{{ $siswa->no_hp }}">
+                    </div>
+                    @error('no_hp')
                     <div class="text-danger">{{ $message }}</div>
                     @enderror
 

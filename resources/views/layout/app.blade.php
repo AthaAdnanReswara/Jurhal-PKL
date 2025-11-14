@@ -152,6 +152,13 @@
             <span class="nav-link-text ms-1">Dashboard</span>
           </a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link text-dark {{ request()->routeIs('pembimbing.siswa.*') ? 'active bg-gradient-dark text-white' : 'text-dark' }}  "
+            href="{{ route('pembimbing.siswa.index') }}">
+            <i class="material-symbols-rounded opacity-5">person</i>
+            <span class="nav-link-text ms-1">Siswa</span>
+          </a>
+        </li>
         @endif
 
 
