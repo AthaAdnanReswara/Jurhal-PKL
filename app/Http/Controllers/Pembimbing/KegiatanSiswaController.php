@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Pembimbing;
 
 use App\Http\Controllers\Controller;
+use App\Models\Kegiatan;
 use Illuminate\Http\Request;
 
 class KegiatanSiswaController extends Controller
@@ -53,6 +54,16 @@ class KegiatanSiswaController extends Controller
     public function update(Request $request, string $id)
     {
         //
+        // Mengambil objek berdasarkan ID
+        $kegiatan = Kegiatan::findOrFail($id);
+        $request->validate([
+            'catatan_pembimbing' => 'nullable|string|max:500',
+        ]);
+
+        $kegiatan->catatan_pembimbing = $request->catatan_pembimbing;
+        $kegiatan->save();
+
+        return redirect()->back()->with('success', 'Catatan pembimbing berhasil diperbarui!');
     }
 
     /**

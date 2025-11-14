@@ -34,7 +34,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($absensi as $abs)
+                        @foreach($absensis as $abs)
                         <tr>
                             <td class="align-middle text-sm">{{ $loop->iteration }}</td>
                             <td class="align-middle text-sm">{{ $abs->siswa->user->name }}</td>

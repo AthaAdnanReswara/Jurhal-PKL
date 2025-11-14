@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Absensi;
 use App\Models\Kegiatan;
 use App\Models\Siswa;
 use Illuminate\Http\Request;
@@ -54,10 +55,7 @@ class PembimbingSiswaController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
+    
 
     /**
      * Remove the specified resource from storage.
@@ -71,5 +69,11 @@ class PembimbingSiswaController extends Controller
     {
         $kegiatans = Kegiatan::where('id_siswa', $id)->get();
         return view('pembimbing.siswa.kegiatan', compact('kegiatans'));
+    }
+
+    public function siswaAbsensi($id)
+    {
+        $absensis = Absensi::where('id_siswa', $id)->get();
+        return view('pembimbing.siswa.absensi', compact('absensis'));
     }
 }

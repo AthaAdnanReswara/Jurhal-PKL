@@ -19,7 +19,7 @@
             @endif
         </div>
         <div class="card-body px-0 pb-2">
-            <div class="table-responsive p-0" >
+            <div class="table-responsive p-0">
                 <table class="table align-items-center mb-0" id="kegiatan">
                     <thead>
                         <tr>
@@ -30,6 +30,7 @@
                             <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Kegiatan</th>
                             <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Caatan</th>
                             <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">created_at</th>
+                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -42,14 +43,88 @@
                             <td class="align-middle text-sm">{{ $kgt->kegiatan }}</td>
                             <td class="align-middle text-sm">{{ $kgt->catatan_pembimbing }}</td>
                             <td class="align-middle text-sm">{{ $kgt->created_at->format('d-m-Y H:i') }}</td>
+                            <td>
+                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                                    Catatan
+                                </button>
+                            </td>
                         </tr>
                         @endforeach
                     </tbody>
                 </table>
+                @foreach ( $kegiatans as $kgt )
+                
+                <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+                    aria-labelledby="staticBackdropLabel" aria-hidden="true"> -->
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-body">
+                                <form action="{{ route('pembimbing.kegiatanSiswa.update', $kgt->id) }}" method="POST">
+                                    @csrf
+                                    @method('PUT')
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="editProfileLabel">Kegiatan Siswa</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+
+                                    <div class="modal-body">
+                                        <div class="row g-3">
+                                            <div class="form-group">
+                                                <label for="name">Nama Siswa</label>
+                                                <input type="text" class="form-control border" id="name" name="name"
+                                                    value="{{ $kgt->siswa->user->name ?? '-' }}" disabled>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="keterangan_kegiatan">Keterangan Kegiatan:</label>
+
+                                                <textarea class="form-control border" name="keterangan_kegiatan" id=""
+                                                    disabled>{{ $kgt->kegiatan }}</textarea>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="tanggal_kegiatan">Tanggal:</label>
+                                                <input type="text" class="form-control border" id="tanggal_kegiatan"
+                                                    name="tanggal_kegiatan" value="{{ $kgt->tanggal ?? '-' }}" disabled>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="mulai_kegiatan">Mulai Kegiatan:</label>
+                                                    <input type="text" class="form-control border" id="mulai_kegiatan"
+                                                        name="mulai_kegiatan" value="{{ $kgt->jam_mulai ?? '-' }}" disabled>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="akhir_kegiatan">Akhir Kegiatan:</label>
+                                                    <input type="text" class="form-control border" id="akhir_kegiatan"
+                                                        name="akhir_kegiatan" value="{{ $kgt->jam_selesai ?? '-' }}" disabled>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="catatan_pembimbing_{{ $kgt->id }}">Catatan Pembimbing</label>
+                                            <textarea class="form-control border" id="catatan_pembimbing_{{ $kgt->id }}"
+                                                name="catatan_pembimbing" rows="4">{{ $kgt->catatan_pembimbing }}</textarea>
+                                        </div>
+
+
+                                    </div>
+                            </div>
+
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                                <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
+                            </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                @endforeach
             </div>
         </div>
     </div>
 </div>
+
 
 <script>
     $(document).ready(function() {

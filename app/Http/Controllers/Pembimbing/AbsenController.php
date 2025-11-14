@@ -14,8 +14,6 @@ class AbsenController extends Controller
     public function index()
     {
         //
-        $absensi = Absensi::with(['siswa'])->get();
-        return view("pembimbing.absen.index", compact("absensi"));
     }
 
     /**

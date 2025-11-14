@@ -44,7 +44,7 @@
                             <td class="align-middle text-center text-sm">{{ $data->created_at->format('d-m-Y H:i') }}</td>
                             <td class="align-middle text-sm">
                                 <a href="{{ route('pembimbing.siswa.kegiatan', $data->id) }}" class="btn btn-info btn-sm">Kegiatan</a>
-                                <a href="" class="btn btn-danger btn-sm">Absensi</a>
+                                <a href="{{ route('pembimbing.siswa.absensi', $data->id) }}" class="btn btn-danger btn-sm">Absensi</a>
                             </td>
                         </tr>
                         @endforeach
