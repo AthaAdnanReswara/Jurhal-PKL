@@ -1,21 +1,30 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Pembimbing;
 
+use App\Http\Controllers\Controller;
 use App\Models\Absensi;
 use App\Models\Kegiatan;
 use App\Models\Siswa;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class PembimbingSiswaController extends Controller
+class PembimbingSiswa extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    public function siswaKegiatan($id)
+    {
+        $kegiatans = Kegiatan::where('id_siswa', $id)->get();
+        return view('pembimbing.siswa.kegiatan', compact('kegiatans'));
+    }
+
+    public function siswaAbsensi($id)
+    {
+        $absensis = Absensi::where('id_siswa', $id)->get();
+        return view('pembimbing.siswa.absensi', compact('absensis'));
+    }
+
     public function index()
     {
-        //
         $siswas = Siswa::where('pembimbing_id', Auth::user()->id)->get();
         return view('pembimbing.siswa.index', compact('siswas'));
     }
@@ -55,7 +64,20 @@ class PembimbingSiswaController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    
+    public function update(Request $request, string $id)
+    {
+        //
+        // Mengambil objek berdasarkan ID
+        $kegiatan = Kegiatan::findOrFail($id);
+        $request->validate([
+            'catatan_pembimbing' => 'nullable|string|max:500',
+        ]);
+
+        $kegiatan->catatan_pembimbing = $request->catatan_pembimbing;
+        $kegiatan->save();
+
+        return redirect()->back()->with('success', 'Catatan pembimbing berhasil diperbarui!');
+    }
 
     /**
      * Remove the specified resource from storage.
@@ -63,17 +85,5 @@ class PembimbingSiswaController extends Controller
     public function destroy(string $id)
     {
         //
-    }
-
-    public function siswaKegiatan($id)
-    {
-        $kegiatans = Kegiatan::where('id_siswa', $id)->get();
-        return view('pembimbing.siswa.kegiatan', compact('kegiatans'));
-    }
-
-    public function siswaAbsensi($id)
-    {
-        $absensis = Absensi::where('id_siswa', $id)->get();
-        return view('pembimbing.siswa.absensi', compact('absensis'));
     }
 }

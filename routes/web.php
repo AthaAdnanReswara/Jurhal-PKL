@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\SiswaController as AdminSiswaController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Pembimbing\KegiatanSiswaController;
+use App\Http\Controllers\Pembimbing\PembimbingSiswa;
 use App\Http\Controllers\PembimbingSiswaController;
 use App\Http\Controllers\Siswa\AbsensiController;
 use App\Http\Controllers\Siswa\KegiatanController;
@@ -63,10 +64,10 @@ Route::prefix('pembimbing')->name('pembimbing.')->middleware(['auth', 'role:pemb
     //Dashboard
     Route::get('dashboard', [DashboardController::class, 'login'])->name('dashboard');
     //siswa
-    Route::resource('siswa', PembimbingSiswaController::class);
+    Route::resource('siswa', PembimbingSiswa::class);
     //kegiatan
-    Route::get('/siswa/kegiatan/{id}', [PembimbingSiswaController::class, 'siswaKegiatan'])->name('siswa.kegiatan');
-    Route::resource('kegiatanSiswa', KegiatanSiswaController::class);
+    Route::get('/siswa/kegiatan/{id}', [PembimbingSiswa::class, 'siswaKegiatan'])->name('siswa.kegiatan');
+    Route::resource('PembimbingSiswa', PembimbingSiswa::class);
     //Absensi pembimbing
-    Route::get('/siswa/absensi/{id}', [PembimbingSiswaController::class,'siswaAbsensi'])->name('siswa.absensi');
+    Route::get('/siswa/absensi/{id}', [PembimbingSiswa::class,'siswaAbsensi'])->name('siswa.absensi');
 }); 

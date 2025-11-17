@@ -28,7 +28,7 @@
                             <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Jam Mulai</th>
                             <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Jam Selesai</th>
                             <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Kegiatan</th>
-                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Caatan</th>
+                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Catatan</th>
                             <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">created_at</th>
                             <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Action</th>
                         </tr>
@@ -59,7 +59,7 @@
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-body">
-                                <form action="{{ route('pembimbing.kegiatanSiswa.update', $kgt->id) }}" method="POST">
+                                <form action="{{ route('pembimbing.PembimbingSiswa.update', $kgt->id) }}" method="POST">
                                     @csrf
                                     @method('PUT')
                                     <div class="modal-header">
