@@ -13,14 +13,24 @@ class PembimbingSiswa extends Controller
 {
     public function siswaKegiatan($id)
     {
-        $kegiatans = Kegiatan::where('id_siswa', $id)->get();
-        return view('pembimbing.siswa.kegiatan', compact('kegiatans'));
+        $siswaId = Siswa::where("id", $id)->where('pembimbing_id', Auth::user()->id)->first();
+        if (!$siswaId) {
+            abort(403, 'Anda tidak memiliki akses ke data siswa ini.');
+        }
+        $siswa = Siswa::findOrFail($id);
+        $kegiatans = Kegiatan::where('id_siswa', $id)->orderByDesc('tanggal')->get();
+        return view('pembimbing.siswa.kegiatan', compact('kegiatans', 'siswa'));
     }
 
     public function siswaAbsensi($id)
     {
+        $siswaId = Siswa::where("id", $id)->where('pembimbing_id', Auth::user()->id)->first();
+        if (!$siswaId) {
+            abort(403, 'Anda tidak memiliki akses ke data siswa ini.');
+        }
+        $siswa = Siswa::findOrFail($id);
         $absensis = Absensi::where('id_siswa', $id)->get();
-        return view('pembimbing.siswa.absensi', compact('absensis'));
+        return view('pembimbing.siswa.absensi', compact('absensis','siswa'));
     }
 
     public function index()
@@ -66,7 +76,6 @@ class PembimbingSiswa extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
         // Mengambil objek berdasarkan ID
         $kegiatan = Kegiatan::findOrFail($id);
         $request->validate([

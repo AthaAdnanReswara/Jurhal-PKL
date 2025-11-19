@@ -120,7 +120,7 @@ class SiswaController extends Controller
             'tempat_lahir' => 'required',
             'tanggal_lahir' => 'required',
             'kelas' => 'required',
-            'jrusan' => 'required',
+            'jurusan' => 'required',
             'nama_dudi' => 'required',
             'pembimbing_id' => 'required',
         ]);

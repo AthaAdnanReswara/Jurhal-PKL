@@ -13,13 +13,13 @@ return new class extends Migration
     {
         Schema::create('siswas', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('id_siswa')->constrained('users')->cascadeOnDelete();
+            $table->foreignId('id_siswa')->constrained('users')->onDelete('cascade');
             $table->string('NIS', 10)->unique();
-            $table->foreignId('jurusan_id')->constrained('jurusans');
+            $table->foreignId('jurusan_id')->constrained('jurusans')->cascadeOnDelete();
             $table->string('tempat_lahir', 255);
             $table->date('tanggal_lahir');
-            $table->string('alamat', 255);
-            $table->foreignId('kelas_id')->constrained('kelas');
+            $table->string('alamat', 255)->nullable();
+            $table->foreignId('kelas_id')->constrained('kelas')->cascadeOnDelete();
             $table->string('golongan_darah')->nullable();
             $table->enum('jenis_kelamin',['laki-laki','perempuan','tidak diketahui']);
             $table->foreignId('nama_dudi')->constrained('dudis')->cascadeOnDelete();

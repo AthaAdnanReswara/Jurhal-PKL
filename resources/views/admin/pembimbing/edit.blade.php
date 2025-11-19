@@ -9,13 +9,13 @@
         @method('PUT')
         <div class="mb-3">
             <label>Nama</label>
-            <input type="text" name="name" value="{{ $pembimbing->name }}" class="form-control border" required>
+            <input type="text" name="name" value="{{ $pembimbing->name }}" class="form-control border" >
             @error('name') <small class="text-danger">{{ $message }}</small> @enderror
         </div>
 
         <div class="mb-3">
             <label>Email</label>
-            <input type="email" name="email" value="{{ $pembimbing->email }}" class="form-control border" required>
+            <input type="email" name="email" value="{{ $pembimbing->email }}" class="form-control border" >
             @error('email') <small class="text-danger">{{ $message }}</small> @enderror
         </div>
 

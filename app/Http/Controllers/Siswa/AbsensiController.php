@@ -23,9 +23,14 @@ class AbsensiController extends Controller
      */
     public function index()
     {
-        //
-        $absensis = Absensi::where('id_siswa', Auth::user()->siswa->id)->get();
-        return view('siswa.absensi.index', compact('absensis'));
+        $user = Auth::user();
+        if (!$user->siswa) {
+            $absensis = collect();
+            return view('siswa.absensi.index', compact('absensis'));
+        } else {
+            $absensis = Absensi::where('id_siswa', Auth::user()->siswa->id)->get();
+            return view('siswa.absensi.index', compact('absensis'));
+        }
     }
 
     /**
@@ -100,15 +105,15 @@ class AbsensiController extends Controller
             return back()->with('error', 'Absen pulang hanya untuk siswa yang hadir.');
         }
 
-        if($absensi->jam_pulang !== null) {
+        if ($absensi->jam_pulang !== null) {
             return back()->with('error', 'sudah absen pulang sebelumnya');
         }
 
         $absensi->update([
-            'jam_pulang'=> now()->format('H:i:s')
+            'jam_pulang' => now()->format('H:i:s')
         ]);
 
-        return back()->with('success','Absen pulang berhasil');
+        return back()->with('success', 'Absen pulang berhasil');
     }
 
 

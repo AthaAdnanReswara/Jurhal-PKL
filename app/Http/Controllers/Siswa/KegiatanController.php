@@ -24,8 +24,14 @@ class KegiatanController extends Controller
     public function index()
     {
         //
-        $kegiatan = Kegiatan::where('id_siswa', Auth::user()->siswa->id)->get();
-        return view('siswa.kegiatan.index', compact('kegiatan'));
+        $user = Auth::user();
+        if (!$user->siswa) {
+            $kegiatan = collect();
+            return view('siswa.kegiatan.index', compact('kegiatan'));
+        } else {
+            $kegiatan = Kegiatan::where('id_siswa', Auth::user()->siswa->id)->get();
+            return view('siswa.kegiatan.index', compact('kegiatan'));
+        }
     }
 
     /**

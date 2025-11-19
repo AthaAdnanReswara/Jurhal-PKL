@@ -34,7 +34,7 @@ class DudiController extends Controller
     {
         //
         $request->validate([
-            'nama_dudi' => 'required|string|max:255',
+            'nama_dudi' => 'required|unique:dudis,nama_dudi|string|max:255',
             'jenis_usaha' => 'required|string|max:255',
             'alamat' => 'required|string|max:555',
             'no_hp' => 'required|string|max:255',
@@ -78,7 +78,7 @@ class DudiController extends Controller
     {
         //
         $request->validate([
-            'nama_dudi' => 'required|string|max:255',
+            'nama_dudi' => 'required|unique:dudis,nama_dudi,' . $dudi->id ,
             'jenis_usaha' => 'required|string|max:255',
             'alamat' => 'required|string|max:555',
             'no_hp' => 'required|string|max:255',

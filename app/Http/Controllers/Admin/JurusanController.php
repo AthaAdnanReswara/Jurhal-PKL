@@ -34,7 +34,7 @@ class JurusanController extends Controller
     {
         //
         $request->validate([
-            'jurusan' => 'required|string|max:255',
+            'jurusan' => 'required|unique:jurusans,jurusan'
         ]);
 
         Jurusan::create([
@@ -64,12 +64,14 @@ class JurusanController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Jurusan $jurusan)
     {
-        //
-        $jurusan = Jurusan::find($id);
-
-        $jurusan->update($request->all());
+      $request->validate([
+            'jurusan' => 'required|unique:jurusans,jurusan,' .$jurusan->id
+        ]);
+        $jurusan->update([
+            'jurusan' => $request->jurusan
+        ]);
 
         return redirect()->route('admin.jurusan.index');
     }

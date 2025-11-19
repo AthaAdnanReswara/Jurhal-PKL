@@ -8,19 +8,19 @@
         @csrf
         <div class="mb-3">
             <label>Nama</label>
-            <input type="text" name="name" class="form-control border" required>
+            <input type="text" name="name" class="form-control border" >
             @error('name') <small class="text-danger">{{ $message }}</small> @enderror
         </div>
 
         <div class="mb-3">
             <label>Email</label>
-            <input type="email" name="email" class="form-control border" required>
+            <input type="email" name="email" class="form-control border" >
             @error('email') <small class="text-danger">{{ $message }}</small> @enderror
         </div>
 
         <div class="mb-3">
             <label>Password</label>
-            <input type="password" name="password" class="form-control border" required>
+            <input type="password" name="password" class="form-control border" >
             @error('password') <small class="text-danger">{{ $message }}</small> @enderror
         </div>
 

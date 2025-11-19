@@ -75,7 +75,17 @@
                             <td class="align-middle text-sm">{{ $d->tanggal }}</td>
                             <td class="align-middle text-sm">{{ $d->jam_masuk }}</td>
                             <td class="align-middle text-sm">{{ $d->jam_pulang }}</td>
-                            <td class="align-middle text-sm">{{ $d->status }}</td>
+                            <td class="align-middle text-sm">
+                                <span class="
+                                @if($d->status == 'hadir') bg-success text-white
+                                @elseif($d->status == 'alpa') bg-danger text-white
+                                @elseif($d->status == 'izin') bg-warning text-dark
+                                @endif
+                                px-2 py-1 rounded">
+                                    {{ $d->status }}
+                                </span>
+                            </td>
+
                             <td class="align-middle text-sm">{{ $d->Keterangan }}</td>
                             <td class="align-middle text-sm">
                                 @if ($d->status == 'hadir' && $d->jam_pulang == null)

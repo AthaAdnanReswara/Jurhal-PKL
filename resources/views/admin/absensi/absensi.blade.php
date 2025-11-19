@@ -19,18 +19,20 @@
             @endif
         </div>
         <div class="card-body px-0 pb-2">
-            <div class="table-responsive p-0" >
+            <div class="table-responsive p-0">
                 <table class="table align-items-center mb-0" id="absensi">
                     <thead>
                         <tr>
                             <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">No</th>
                             <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Name Siswa</th>
+                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Name Pembimbing</th>
+                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Siswa Kelas</th>
+                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Siswa Dudi</th>
                             <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Tanggal</th>
                             <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Jam Masuk</th>
                             <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Jam Pulang</th>
                             <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status</th>
                             <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Keterangan</th>
-                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">created_at</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -38,12 +40,24 @@
                         <tr>
                             <td class="align-middle text-sm">{{ $loop->iteration }}</td>
                             <td class="align-middle text-sm">{{ $abs->siswa->user->name }}</td>
+                            <td class="align-middle text-sm">{{ $abs->siswa->pembimbing->name }}</td>
+                            <td class="align-middle text-sm">{{ $abs->siswa->kelas->nama_kelas }}</td>
+                            <td class="align-middle text-sm">{{ $abs->siswa->dudi->nama_dudi }}</td>
                             <td class="align-middle text-sm">{{ $abs->tanggal }}</td>
                             <td class="align-middle text-sm">{{ $abs->jam_masuk }}</td>
                             <td class="align-middle text-sm">{{ $abs->jam_pulang }}</td>
-                            <td class="align-middle text-sm">{{ $abs->status }}</td>
+                            <td class="align-middle text-sm">
+                                <span class="
+                                @if($abs->status == 'hadir') bg-success text-white
+                                @elseif($abs->status == 'alpa') bg-danger text-white
+                                @elseif($abs->status == 'izin') bg-warning text-dark
+                                @endif
+                                px-2 py-1 rounded">
+                                    {{ $abs->status }}
+                                </span>
+                            </td>
+
                             <td class="align-middle text-sm">{{ $abs->Keterangan }}</td>
-                            <td class="align-middle text-sm">{{ $abs->created_at->format('d-m-Y H:i') }}</td>
                         </tr>
                         @endforeach
                     </tbody>
