@@ -31,17 +31,10 @@ class DashboardController extends Controller
 
             return view('pembimbing.dashboard', compact('user', 'totalSiswa', 'totalDudi'));
         } elseif ($user->role === 'siswa') {
-            if (!$user->siswa) {
-                $totalKegiatan = 0;
-                $totalAbsensi = 0;
+            $totalKegiatan = Kegiatan::where('id_siswa', Auth::user()->siswa->id)->count();
+            $totalAbsensi = Absensi::where('id_siswa', Auth::user()->siswa->id)->count();
 
-                return view('siswa.dashboard', compact('user', 'totalKegiatan', 'totalAbsensi'));
-            } else {
-                $totalKegiatan = Kegiatan::where('id_siswa', Auth::user()->siswa->id)->count();
-                $totalAbsensi = Absensi::where('id_siswa', Auth::user()->siswa->id)->count();
-
-                return view('siswa.dashboard', compact('user', 'totalKegiatan', 'totalAbsensi'));
-            }
+            return view('siswa.dashboard', compact('user', 'totalKegiatan', 'totalAbsensi'));
         } else {
             abort(403, 'Role penguna tidak dikenali');
         }

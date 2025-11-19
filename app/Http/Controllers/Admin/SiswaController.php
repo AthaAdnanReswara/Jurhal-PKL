@@ -5,12 +5,14 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Dudi;
 use App\Models\Jurusan;
+use App\Models\Kegiatan;
 use App\Models\Kelas;
 use App\Models\Siswa;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 class SiswaController extends Controller
 {
@@ -154,8 +156,16 @@ class SiswaController extends Controller
      */
     public function destroy(Siswa $siswa)
     {
-        //
         $user = User::find($siswa->id_siswa);
+        $kegiatans = Kegiatan::where('id_siswa', $siswa->id)->get();
+        foreach($kegiatans as $kegiatan){
+            if($kegiatan->dukumentasi){
+                Storage::disk('public')->delete($kegiatan->dukumentasi);
+            }
+        }
+        if($siswa->foto){
+                Storage::disk('public')->delete($siswa->foto);
+        }
         $user->delete();
         $siswa->delete();
 

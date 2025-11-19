@@ -12,14 +12,18 @@
         </div>
         <div class="m-3 mb-2">
             <a href="{{ route('admin.kelas.create') }}" class="btn btn-primary mb-3">Tambah Kelas</a>
-
-            @if(session('success'))
+            @if (session('success'))
+            <div class="alert alert-success text-center small">{{ session('success') }}</div>
+            @elseif (session('error'))
+            <div class="alert alert-danger text-center text-white small">{{ session('error') }}</div>
+            @endif
+            <!-- @if(session('success'))
             <div class="alert alert-success alert-dismissible text-white">{{ session('success') }}
                 <button type="button" class="btn-close text-lg py-3 opacity-10" data-bs-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            @endif
+            @endif -->
         </div>
         <div class="card-body px-3 pb-2">
             <div class="table-responsive p-0">

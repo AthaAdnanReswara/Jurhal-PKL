@@ -14,7 +14,7 @@ class KegiatanController extends Controller
     // untuk menampilkan di admin
     public function kegiatan()
     {
-        $kegiatans = Kegiatan::with(['siswa'])->get();
+        $kegiatans = Kegiatan::with(['siswa'])->orderBy('tanggal','desc')->get();
         return view('admin.kegiatan.kegiatan', compact('kegiatans'));
     }
 
@@ -23,15 +23,8 @@ class KegiatanController extends Controller
      */
     public function index()
     {
-        //
-        $user = Auth::user();
-        if (!$user->siswa) {
-            $kegiatan = collect();
-            return view('siswa.kegiatan.index', compact('kegiatan'));
-        } else {
-            $kegiatan = Kegiatan::where('id_siswa', Auth::user()->siswa->id)->get();
-            return view('siswa.kegiatan.index', compact('kegiatan'));
-        }
+        $kegiatan = Kegiatan::where('id_siswa', Auth::user()->siswa->id)->orderBy('tanggal', 'desc')->get();
+        return view('siswa.kegiatan.index', compact('kegiatan'));
     }
 
     /**

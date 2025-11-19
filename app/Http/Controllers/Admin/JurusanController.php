@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Jurusan;
+use App\Models\Siswa;
 use Illuminate\Http\Request;
 
 class JurusanController extends Controller
@@ -82,6 +83,9 @@ class JurusanController extends Controller
     public function destroy(Jurusan $jurusan)
     {
         //
+        if($jurusan->siswa()->count() > 0){
+            return redirect()->route('admin.jurusan.index')->with('error', 'jurusan tidak bisa dihapus karena masih memiliki siswa');
+        }
         $jurusan->delete();
         return redirect()->route('admin.jurusan.index')->with('success', 'jurusan birhasil dihapus');
 

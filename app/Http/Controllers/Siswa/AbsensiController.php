@@ -13,8 +13,7 @@ class AbsensiController extends Controller
     //menapilan di admin
     public function absensi()
     {
-        $absensi = Absensi::with(['siswa'])->get();
-
+        $absensi = Absensi::with(['siswa'])->orderBy('tanggal','desc')->get();
         return view('admin.absensi.absensi', compact('absensi'));
     }
 
@@ -23,14 +22,8 @@ class AbsensiController extends Controller
      */
     public function index()
     {
-        $user = Auth::user();
-        if (!$user->siswa) {
-            $absensis = collect();
-            return view('siswa.absensi.index', compact('absensis'));
-        } else {
-            $absensis = Absensi::where('id_siswa', Auth::user()->siswa->id)->get();
-            return view('siswa.absensi.index', compact('absensis'));
-        }
+        $absensis = Absensi::where('id_siswa', Auth::user()->siswa->id)->orderBy('tanggal', 'desc')->get();
+        return view('siswa.absensi.index', compact('absensis'));
     }
 
     /**

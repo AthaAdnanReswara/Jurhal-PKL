@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Kelas;
+use App\Models\Siswa;
 use Illuminate\Http\Request;
 
 class KelasController extends Controller
@@ -82,6 +83,9 @@ class KelasController extends Controller
     public function destroy(Kelas $kelas)
     {
         //
+        if($kelas->siswa()->count() > 0){
+            return redirect()->route('admin.kelas.index')->with('error', 'kelas tidak bisa dihapus karena masih memiliki siswa');
+        }
         $kelas->delete();
         return redirect()->route('admin.kelas.index')->with('success', 'kelas berhasih di hapus');
     }

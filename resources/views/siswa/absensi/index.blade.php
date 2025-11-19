@@ -86,7 +86,7 @@
                                 </span>
                             </td>
 
-                            <td class="align-middle text-sm">{{ $d->Keterangan }}</td>
+                            <td class="align-middle text-sm">{{ $d->keterangan }}</td>
                             <td class="align-middle text-sm">
                                 @if ($d->status == 'hadir' && $d->jam_pulang == null)
                                 <a href="{{ route('siswa.absensi.pulang', $d->id) }}" class="btn btn-success btn-sm">Pulang</a>

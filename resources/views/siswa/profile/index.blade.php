@@ -25,13 +25,13 @@
                 <div class="col-auto">
                     <div class="avatar avatar-xxl position-relative">
                         @if($siswa->foto)
-                        <img src="{{ asset('storage/' . $siswa->foto) }}" alt="foto" width="80%" class="rounded shadow-sm">
+                        <img src="{{ asset('storage/' . $siswa->foto) }}" alt="foto" class="rounded-circle shadow-sm" style="width: 120px; height: 120px; object-fit: cover;">
                         @else
-                        <img src="{{ asset('assets/img/bruce-mars.jpg') }}" alt="profile_image"
-                            class="w-100 border-radius-lg shadow-sm border border-3 border-white">
+                        <img src="{{ asset('assets/img/bruce-mars.jpg') }}" alt="profile_image" class="rounded-circle shadow-sm border border-4 border-white" style="width: 120px; height: 120px; object-fit: cover;">
                         @endif
-
                     </div>
+
+
                 </div>
                 <div class="col">
                     <h5 class="fw-bold mb-1">{{ $siswa->user->name }}</h5>
@@ -164,7 +164,7 @@
 
                     <div class="mb-3">
                         <label>Tanggal Lahir</label>
-                        <input type="date" name="tanggal_lahir" class="form-control border" value="{{ $siswa->tangga_lahir }}">
+                        <input type="date" name="tanggal_lahir" class="form-control border" value="{{ $siswa->tanggal_lahir }}">
                     </div>
                     @error('tangga_lahir')
                     <div class="text-danger">{{ $message }}</div>
@@ -196,8 +196,8 @@
                         <label>Jenis Kelamin</label>
                         <select name="jenis_kelamin" id="jenis_kelamin" class="form-control border" required>
                             <option value="tidak diketahui" {{ $siswa->jenis_kelamin == 'tidak diketahui' ? 'selected' : '' }}>Tidak Diketahui</option>
-                            <option value="Laki-laki" {{ $siswa->jenis_kelamin == 'Laki-laki' ? 'selected' : '' }}>Laki-laki</option>
-                            <option value="Perempuan" {{ $siswa->jenis_kelamin == 'Perempuan' ? 'selected' : '' }}>Perempuan</option>
+                            <option value="laki-laki" {{ $siswa->jenis_kelamin == 'laki-laki' ? 'selected' : '' }}>Laki-laki</option>
+                            <option value="perempuan" {{ $siswa->jenis_kelamin == 'perempuan' ? 'selected' : '' }}>Perempuan</option>
                         </select>
                     </div>
                     @error('jenis_kelamin')

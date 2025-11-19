@@ -18,7 +18,7 @@ class PembimbingSiswa extends Controller
             abort(403, 'Anda tidak memiliki akses ke data siswa ini.');
         }
         $siswa = Siswa::findOrFail($id);
-        $kegiatans = Kegiatan::where('id_siswa', $id)->orderByDesc('tanggal')->get();
+        $kegiatans = Kegiatan::where('id_siswa', $id)->orderBy('tanggal','desc')->get();
         return view('pembimbing.siswa.kegiatan', compact('kegiatans', 'siswa'));
     }
 
@@ -29,7 +29,7 @@ class PembimbingSiswa extends Controller
             abort(403, 'Anda tidak memiliki akses ke data siswa ini.');
         }
         $siswa = Siswa::findOrFail($id);
-        $absensis = Absensi::where('id_siswa', $id)->get();
+        $absensis = Absensi::where('id_siswa', $id)->orderBy('tanggal','desc')->get();
         return view('pembimbing.siswa.absensi', compact('absensis','siswa'));
     }
 

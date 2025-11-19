@@ -52,7 +52,7 @@
                                 </span>
                             </td>
 
-                            <td class="align-middle text-sm">{{ $abs->Keterangan ?? '-' }}</td>
+                            <td class="align-middle text-sm">{{ $abs->keterangan ?? '-' }}</td>
                         </tr>
                         @endforeach
                     </tbody>

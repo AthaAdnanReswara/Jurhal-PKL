@@ -11,17 +11,14 @@
         </div>
         <div class="m-3 mb-2">
             <a href="{{ route('admin.dudi.create') }}" class="btn btn-primary mb-3">Tambah dudi</a>
-
-            @if(session('success'))
-            <div class="alert alert-success alert-dismissible text-white">{{ session('success') }}
-                <button type="button" class="btn-close text-lg py-3 opacity-10" data-bs-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
+            @if (session('success'))
+            <div class="alert alert-success text-center small">{{ session('success') }}</div>
+            @elseif (session('error'))
+            <div class="alert alert-danger text-center text-white small">{{ session('error') }}</div>
             @endif
         </div>
         <div class="card-body px-0 pb-2">
-            <div class="table-responsive p-0" >
+            <div class="table-responsive p-0">
                 <table class="table align-items-center mb-0" id="Dudi">
                     <thead>
                         <tr>

@@ -48,115 +48,116 @@
                                     detail
                                 </button>
                                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#catatan{{ $kgt->id }}">
-                                    Catatan 
+                                    Catatan
                                 </button>
                             </td>
                         </tr>
+                        <div class="modal fade" id="detail{{ $kgt->id }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+                            aria-labelledby="staticBackdropLabel" aria-hidden="true"> -->
+                            <div class="modal-dialog modal-lg">
+                                <div class="modal-content">
+                                    <div class="modal-body">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="editProfileLabel">Kegiatan Siswa</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+
+                                        <div class="modal-body">
+                                            <div class="row g-3">
+                                                <div class="form-group">
+                                                    <label for="name">Nama Siswa</label>
+                                                    <input type="text" class="form-control border" id="name" name="name"
+                                                        value="{{ $kgt->siswa->user->name ?? '-' }}" disabled>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="keterangan_kegiatan">Keterangan Kegiatan:</label>
+
+                                                    <textarea class="form-control border" name="keterangan_kegiatan" id=""
+                                                        disabled>{{ $kgt->kegiatan }}</textarea>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="tanggal_kegiatan">Tanggal:</label>
+                                                    <input type="text" class="form-control border" id="tanggal_kegiatan"
+                                                        name="tanggal_kegiatan" value="{{ $kgt->tanggal ?? '-' }}" disabled>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="mulai_kegiatan">Mulai Kegiatan:</label>
+                                                        <input type="text" class="form-control border" id="mulai_kegiatan"
+                                                            name="mulai_kegiatan" value="{{ $kgt->jam_mulai ?? '-' }}" disabled>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="akhir_kegiatan">Akhir Kegiatan:</label>
+                                                        <input type="text" class="form-control border" id="akhir_kegiatan"
+                                                            name="akhir_kegiatan" value="{{ $kgt->jam_selesai ?? '-' }}" disabled>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label>Dokumentasi</label><br>
+                                                <img src="{{ asset('storage/' . $kgt->dukumentasi) }}" alt="dukumentasi" width="80%" class="rounded shadow-sm">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="catatan_pembimbing_{{ $kgt->id }}">Catatan Pembimbing</label>
+                                                <textarea class="form-control border" id="catatan_pembimbing_{{ $kgt->id }}"
+                                                    name="catatan_pembimbing" rows="4" disabled>{{ $kgt->catatan_pembimbing }}</textarea>
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="modal fade" id="catatan{{ $kgt->id }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+                            aria-labelledby="staticBackdropLabel" aria-hidden="true"> -->
+                            <div class="modal-dialog modal-md">
+                                <div class="modal-content">
+                                    <div class="modal-body">
+                                        <form action="{{ route('pembimbing.PembimbingSiswa.update', $kgt->id) }}" method="POST">
+                                            @csrf
+                                            @method('PUT')
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="editProfileLabel">Kegiatan Siswa</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="form-group">
+                                                    <label for="catatan_pembimbing_{{ $kgt->id }}">Catatan Pembimbing</label>
+                                                    <textarea class="form-control border" id="catatan_pembimbing_{{ $kgt->id }}"
+                                                        name="catatan_pembimbing" rows="4">{{ $kgt->catatan_pembimbing }}</textarea>
+                                                </div>
+                                                <div>
+                                                    @error('catatan_pembimbing')
+                                                    <div class="text-danger">{{ $message }}</div>
+                                                    @enderror
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                                                <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                         @endforeach
                     </tbody>
                 </table>
-                <div class="modal fade" id="detail{{ $kgt->id }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-                    aria-labelledby="staticBackdropLabel" aria-hidden="true"> -->
-                    <div class="modal-dialog modal-lg">
-                        <div class="modal-content">
-                            <div class="modal-body">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="editProfileLabel">Kegiatan Siswa</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                        aria-label="Close"></button>
-                                </div>
-
-                                <div class="modal-body">
-                                    <div class="row g-3">
-                                        <div class="form-group">
-                                            <label for="name">Nama Siswa</label>
-                                            <input type="text" class="form-control border" id="name" name="name"
-                                                value="{{ $kgt->siswa->user->name ?? '-' }}" disabled>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="keterangan_kegiatan">Keterangan Kegiatan:</label>
-
-                                            <textarea class="form-control border" name="keterangan_kegiatan" id=""
-                                                disabled>{{ $kgt->kegiatan }}</textarea>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="tanggal_kegiatan">Tanggal:</label>
-                                            <input type="text" class="form-control border" id="tanggal_kegiatan"
-                                                name="tanggal_kegiatan" value="{{ $kgt->tanggal ?? '-' }}" disabled>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label for="mulai_kegiatan">Mulai Kegiatan:</label>
-                                                <input type="text" class="form-control border" id="mulai_kegiatan"
-                                                    name="mulai_kegiatan" value="{{ $kgt->jam_mulai ?? '-' }}" disabled>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label for="akhir_kegiatan">Akhir Kegiatan:</label>
-                                                <input type="text" class="form-control border" id="akhir_kegiatan"
-                                                    name="akhir_kegiatan" value="{{ $kgt->jam_selesai ?? '-' }}" disabled>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label>Dokumentasi</label><br>
-                                        <img src="{{ asset('storage/' . $kgt->dukumentasi) }}" alt="dukumentasi" width="80%" class="rounded shadow-sm">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="catatan_pembimbing_{{ $kgt->id }}">Catatan Pembimbing</label>
-                                        <textarea class="form-control border" id="catatan_pembimbing_{{ $kgt->id }}"
-                                            name="catatan_pembimbing" rows="4" disabled>{{ $kgt->catatan_pembimbing }}</textarea>
-                                    </div>
 
 
-                                </div>
-                            </div>
-
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-
-                @foreach ( $kegiatans as $kgt )
-                <div class="modal fade" id="catatan{{ $kgt->id }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-                    aria-labelledby="staticBackdropLabel" aria-hidden="true"> -->
-                    <div class="modal-dialog modal-md">
-                        <div class="modal-content">
-                            <div class="modal-body">
-                                <form action="{{ route('pembimbing.PembimbingSiswa.update', $kgt->id) }}" method="POST">
-                                    @csrf
-                                    @method('PUT')
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="editProfileLabel">Kegiatan Siswa</h5>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                            aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <div class="form-group">
-                                            <label for="catatan_pembimbing_{{ $kgt->id }}">Catatan Pembimbing</label>
-                                            <textarea class="form-control border" id="catatan_pembimbing_{{ $kgt->id }}"
-                                                name="catatan_pembimbing" rows="4">{{ $kgt->catatan_pembimbing }}</textarea>
-                                        </div>
-                                        <div>
-                                            @error('catatan_pembimbing')
-                                            <div class="text-danger">{{ $message }}</div>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                                        <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                    @endforeach
-                </div>
             </div>
         </div>
     </div>

@@ -27,7 +27,7 @@
             </div>
             <hr class="dark horizontal my-0">
             <div class="card-footer p-2 ps-3">
-                <p class="mb-0 text-sm"><span class="text-success font-weight-bolder"></span><a href="">Lihat Kegiatan</a></p>
+                <p class="mb-0 text-sm"><span class="text-success font-weight-bolder"></span><a href="{{ route('siswa.kegiatan.index') }}">Lihat Kegiatan</a></p>
             </div>
         </div>
     </div>
@@ -46,7 +46,7 @@
             </div>
             <hr class="dark horizontal my-0">
             <div class="card-footer p-2 ps-3">
-                <p class="mb-0 text-sm"><span class="text-success font-weight-bolder"></span><a href="">Lihat Absensi</a></p>
+                <p class="mb-0 text-sm"><span class="text-success font-weight-bolder"></span><a href="{{ route('siswa.absensi.index') }}">Lihat Absensi</a></p>
             </div>
         </div>
     </div>

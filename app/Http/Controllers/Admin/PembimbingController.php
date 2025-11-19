@@ -94,7 +94,9 @@ class PembimbingController extends Controller
      */
     public function destroy(User $pembimbing)
     {
-        //
+        if($pembimbing->pembimbingSiswa()->count() > 0){
+            return redirect()->route('admin.pembimbing.index')->with('error', 'pembimbing tidak bisa dihapus karena masih memiliki siswa');
+        }
         $pembimbing->delete();
             return redirect()->route('admin.pembimbing.index')->with('success','berhasil menghapus pembimbing');
     }
